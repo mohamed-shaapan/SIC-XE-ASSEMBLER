@@ -6,7 +6,7 @@ import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import assembler.Operation;
+import operation.Operation;
 
 public class FileHandler {
 	public static Map<String, Operation> readFile(String fileDirectory) {
@@ -21,7 +21,7 @@ public class FileHandler {
 				int numberOfOperands = Integer.valueOf(tmp[2]);
 				Operation operation = new Operation(name, opCode, numberOfOperands);
 				hashTable.put(operation.getOpName(), operation);
-				operation.print();
+				//operation.print();
 			}
 			bufferedReader.close();
 		} catch (Exception e) {
