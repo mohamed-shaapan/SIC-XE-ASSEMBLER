@@ -9,6 +9,7 @@ import java.util.Map;
 import operation.Operation;
 
 public class FileHandler {
+    
 	public static Map<String, Operation> readFile(String fileDirectory) {
 		Map<String, Operation> hashTable = new HashMap<String, Operation>();
 		try {

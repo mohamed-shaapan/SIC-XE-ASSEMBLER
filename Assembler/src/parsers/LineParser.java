@@ -1,9 +1,17 @@
 package parsers;
 
+import util.Pair;
+
 public class LineParser {
 	
 	private static LineParser parserObj;
+	private static final  int numberOfParameters = 4;
+	private static final Pair[] places = new Pair[numberOfParameters];
 	private LineParser(){
+	    places[0] = new Pair(0, 9);
+	    places[1] = new Pair(10, 16);
+	    places[2] = new Pair(18, 36);
+	    places[3] = new Pair(36, 67);
 	}
 	
 	public String[] parseLine(String line){
@@ -26,7 +34,12 @@ public class LineParser {
 	
 	//extract line content [label,operation name,operands,comment]
 	private String[] extractParameters(String line){
-		return line.split(" +");
+	    String[] parameters = new String[numberOfParameters];
+	   
+	    for(int i = 0 ; i < numberOfParameters ; i++){
+	        parameters[i] = line.substring(places[i].getFirst(), places[i].getSecond());
+	    }
+		return parameters;
 	}
 	
 	//signelton

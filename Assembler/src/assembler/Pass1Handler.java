@@ -57,8 +57,9 @@ public class Pass1Handler {
 		return true;
 	}
 	public static Pass1Handler getInstance(){
-	    if(instanceObj != null){
-	        instanceObj = new Pass1Handler(fileDirectory, srcFileDirectory)
+	    if(instanceObj == null){
+	        //instanceObj = new Pass1Handler(fileDirectory, srcFileDirectory)
 	    }
+	    return instanceObj;
 	}
 }
