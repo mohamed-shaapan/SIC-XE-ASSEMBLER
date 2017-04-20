@@ -1,0 +1,11 @@
+.23456789012345678901234567890123456
+         START   0000
+BGN      LDA     #90
+         STA     ALPHA
+         ADD     FOUR
+         STA     BETA
+         J       *
+FOUR     WORD    4
+ALPHA    RESW    1
+BETA     RESW    1
+         END     BGN

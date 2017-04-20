@@ -1,0 +1,13 @@
+>>  Header  Record : 
+    H^prog  ^000100^000017
+        program name  = prog  
+        Load Address  = 000100   Hex
+
+>>  Text Record(s) : 
+    T^000100^15^03010F1B01121900140F01153F010C00000A000018
+
+>>  End  Record : 
+    E^000100
+        initial value of PC = 000100   Hex
+
+>>  successful loading

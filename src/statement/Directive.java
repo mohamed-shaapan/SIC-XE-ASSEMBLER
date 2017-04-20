@@ -11,12 +11,12 @@ public class Directive implements IStatement{
 	
 	@Override
 	public String getOpName() {
-		return null;
+		return dirName;
 	}
 
 	@Override
 	public int getNumberOfOperands() {
-		return 0;
+		return numberOfOperands;
 	}
 	
 

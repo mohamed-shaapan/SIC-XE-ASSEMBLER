@@ -27,9 +27,23 @@ public class FileHandler {
 				//operation.print();
 			}
 			bufferedReader.close();
-			readDirectivesFile(directivesFileDirectory,hashTable);
+			//readDirectivesFile(directivesFileDirectory,hashTable);		
 		} catch (Exception e) {
 		}
+		try {
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(directivesFileDirectory)));
+			while (bufferedReader.ready()) {
+				String line = bufferedReader.readLine();
+				String tmp[] = line.split(new String(" "));
+				String name = tmp[0];
+				int numberOfOperands = Integer.valueOf(tmp[1]);
+				IStatement directive = new Directive(name, numberOfOperands);
+				hashTable.put(directive.getOpName(), directive);
+			}
+			bufferedReader.close();
+		} catch (Exception e) {
+		}
+
 		return hashTable;
 	}
 	

@@ -1,0 +1,60 @@
+>>  Source Program statements with value of LC indicated
+
+      .2345678901234567890                                              
+000100 prog     start   0100                                             
+      .                                                                 
+      .                                                                 
+000100 bgn      lda     alpha                                            
+000103          add     beta                                             
+000106          add     #20                                              
+000109          sta     result                                           
+00010C          j       *                                                
+00010F alpha    word    10                                               
+000112 beta     word    24                                               
+000115 result   resw    1                                                
+000118          end                                                      
+
+>>    e n d    o f   p a s s   1 
+
+>>   *****************************************************
+>>    s y m b o l     t a b l e   (values in decimal)
+
+        name         value     Absol/Reloc
+        ----------------------------------
+        bgn           256     Relocatable
+        alpha         271     Relocatable
+        beta          274     Relocatable
+        result        277     Relocatable
+
+>>   *****************************************************
+>>   S t a r t   o f    P a s s   I I 
+
+>>   A s s e m b l e d    p r o g r a m     l i s t i n g
+
+ LC    Code         Source Statement
+
+            .2345678901234567890                                            
+000100        prog     start 0100              
+            .                                                               
+            .                                                               
+
+                             reloc   n=1 i=1 x=0   b=0 p=0 e=0
+000100 03010F bgn      lda   alpha             
+
+                             reloc   n=1 i=1 x=0   b=0 p=0 e=0
+000103 1B0112          add   beta              
+
+                             abs     n=0 i=1 x=0   b=0 p=0 e=0
+000106 190014          add   #20               
+
+                             reloc   n=1 i=1 x=0   b=0 p=0 e=0
+000109 0F0115          sta   result            
+
+                             reloc   n=1 i=1 x=0   b=0 p=0 e=0
+00010C 3F010C          j     *                 
+00010F 00000A alpha    word  10                
+000112 000018 beta     word  24                
+000115        result   resw  1                 
+000118                 end                     
+
+>>    s u c c e s s f u l    a s s e m b l y

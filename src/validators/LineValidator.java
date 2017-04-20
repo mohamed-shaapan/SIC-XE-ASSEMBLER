@@ -19,7 +19,7 @@ public class LineValidator {
 		boolean cond1 = labelValidator.validate(line[0], statement);
 		boolean cond2 = operationValidator.validate(line[1], statement);
 		boolean cond3 = operandValidator.validate(line[2], statement);
-		boolean cond4 = commentValidator.validate(line[3], statement);
+		boolean cond4 = true; //= commentValidator.validate(line[3], statement);
 		return cond1&&cond2&&cond3&&cond4;
 	}
 }

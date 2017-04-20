@@ -6,13 +6,14 @@ public class LineParser {
 
     private static LineParser parserObj;
     private static final int numberOfParameters = 4;
-    private static final Pair[] places = new Pair[numberOfParameters];
+    private static final Pair[] places = new Pair[numberOfParameters+1];
 
     private LineParser() {
-        places[0] = new Pair(0, 9);
-        places[1] = new Pair(10, 16);
-        places[2] = new Pair(18, 36);
-        places[3] = new Pair(36, 67);
+        places[0] = new Pair(0, 8);
+        places[1] = new Pair(9, 15);
+        places[2] = new Pair(17, 35);
+        places[3] = new Pair(35, 66);
+        places[4] = new Pair(15, 17);
     }
 
     public String[] parseLine(String line) {
@@ -28,11 +29,11 @@ public class LineParser {
             line += " ";
         }
         boolean cond1 = (line.length() < 67);
-        boolean cond2 = (line.substring(0, 8).split(" +").length <= 1);
-        boolean cond3 = (line.substring(9, 14).split(" +").length == 1);
-        boolean cond4 = (line.substring(17, 34).split(" +").length <= 1);
+        boolean cond2 = (line.substring(places[0].getFirst(), places[0].getSecond()).split(" +").length <= 1);
+        boolean cond3 = (line.substring(places[1].getFirst(), places[1].getSecond()).split(" +").length == 1);
+        boolean cond4 = (line.substring(places[2].getFirst(), places[2].getSecond()).split(" +").length <= 1);
         boolean cond5 = (line.charAt(8) == ' ');
-        boolean cond6 = line.substring(15, 17).equals("  ");
+        boolean cond6 = line.substring(places[4].getFirst(), places[4].getSecond()).equals("  ");
         return cond1 && cond2 && cond3 && cond4 && cond5 && cond6;
     }
 
@@ -44,6 +45,7 @@ public class LineParser {
         String[] parameters = new String[numberOfParameters];
         for (int i = 0; i < numberOfParameters; i++) {
             parameters[i] = line.substring(places[i].getFirst(), places[i].getSecond());
+            parameters[i] = parameters[i].trim();
         }
         return parameters;
     }
