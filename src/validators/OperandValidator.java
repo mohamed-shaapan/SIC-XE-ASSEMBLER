@@ -1,5 +1,6 @@
 package validators;
 
+import statement.Directive;
 import statement.IStatement;
 
 public class OperandValidator implements IValidator {
@@ -17,9 +18,9 @@ public class OperandValidator implements IValidator {
             case 2:
                 return format2(str);
             case 3:
-                return format3(str);
+                return format3(str, operation);
             case 4:
-                return format4(str);
+                return format4(str, operation);
         }
         return false;
     }
@@ -38,18 +39,26 @@ public class OperandValidator implements IValidator {
         return false;
     }
 
-    private boolean format3(String content) {
-        if (content.charAt(0) == '#' || content.charAt(0) == '@') {
-            return checkName(content.substring(1));
+    private boolean format3(String content, IStatement operation) {
+        if (operation instanceof Directive) {
+            return checkDecimalNumber(content);
+        } else {
+            if (content.charAt(0) == '#' || content.charAt(0) == '@') {
+                return checkName(content.substring(1)) || checkDecimalNumber(content.substring(1));
+            }
+            if (content.substring(0, 2).equalsIgnoreCase("0x")) {
+                return checkHexaNumber(content.substring(3));
+            }
+            return checkName(content);
         }
-        if (content.substring(0, 2).equalsIgnoreCase("0x")) {
-            return checkNumber(content.substring(3));
-        }
-        return checkName(content);
+
     }
 
-    private boolean format4(String content) {
-        return format3(content);
+    private boolean format4(String content, IStatement operation) {
+        if (operation instanceof Directive) {
+            return false;
+        }
+        return format3(content, operation);
     }
 
     private boolean isRegister(String reg) {
@@ -79,7 +88,17 @@ public class OperandValidator implements IValidator {
         return false;
     }
 
-    private boolean checkNumber(String content) {
+    private boolean checkDecimalNumber(String content) {
+        for (int i = 0; i < content.length(); i++) {
+            if (inBetween(content, i, '0', '9'))
+                continue;
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkHexaNumber(String content) {
+
         for (int i = 0; i < content.length(); i++) {
             if (inBetween(content, i, '0', '9'))
                 continue;
