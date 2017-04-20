@@ -25,7 +25,7 @@ public class OperandValidator implements IValidator {
     }
 
     private boolean format1(String content) {
-        return (content == null);
+        return content.trim().isEmpty();
     }
 
     private boolean format2(String content) {
