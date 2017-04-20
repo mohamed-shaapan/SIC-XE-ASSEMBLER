@@ -1,0 +1,20 @@
+       Simplified Computer and Programming Systyem
+
+This system is designed and implemented by Prof.Dr. Ahmed El-Nahas to help
+teaching of basic concepts in Systems Programming , e.g., :
+     Programming in Assembly Langauge ,
+     Programming in Macro Language ,  
+     Working of a 2-Pass Assembler
+     Working of a 2-Pass Macro-Processor having conditional macro facility
+     Concept of stored-program and how it is executed on a machine  
+
+The system is built around the SIC/XE machine which is now commonly used in
+teaching Systems programming. It is very user-friendly , and have much more  
+capabilities than the one available from Beck (the auther of the known book
+on systems programming), specially, the newly developed macro processor.
+
+Also, the system provides demostrations and explantion of full details
+(not just the final result) of working of assemblers , macro processors ,
+ and execution of programs on a machine.
+
+If you find any bug in this system, please notify the developer.

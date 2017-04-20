@@ -46,7 +46,6 @@ public class Operation implements IStatement{
 
 	@Override
 	public int hasLabel() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 }

@@ -49,24 +49,24 @@ public class Pass1Handler {
 				String[] data = lineParser.parseLine(statement);
 				if(data == null){
 					error = true;
-					lineAddressGenerator.appendError(statement, "syntax error");
+					lineAddressGenerator.appendError(statement, "syntax error1");
 				}
 				else{
 					//System.out.println(data[1]);
 					//System.out.println(statementTable.get(data[1]));
-					if(lineValidator.validateLine(data,statementTable.get(data[1]))&&symbolTable.get(data[0])==null){
+					if(lineValidator.validateLine(data,statementTable.get(data[1].toLowerCase()))&&symbolTable.get(data[0])==null){
 						if(firstStatement){
 							firstStatement = false;
 							lineAddressGenerator.setInitialAddress(data[2]);
 						}
-						String address = lineAddressGenerator.appendStatement(statement, data, statementTable.get(data[1]));
+						String address = lineAddressGenerator.appendStatement(statement, data, statementTable.get(data[1].toLowerCase()));
 						if(data[0].replaceAll(" ", "").length()!=0){ //correct or "     "
 							symbolTable.put(data[0], address);
 						}
 					}
 					else{
 						error = true;
-						lineAddressGenerator.appendError(statement, "syntax error");
+						lineAddressGenerator.appendError(statement, "syntax error2");
 					}
 				}
 			}

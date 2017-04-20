@@ -1,8 +1,6 @@
 package util;
 
 public class Pair {
-    
-    
     private int first, second;
 
     public Pair(int first, int second) {

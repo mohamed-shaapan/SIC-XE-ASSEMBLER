@@ -14,10 +14,10 @@ public class Main {
 	
 	public static void main(String[] args) {
 		String[] loc = {
-						"C:\\Users\\amrmh_000\\Desktop\\Test\\operation code.txt",
-						"C:\\Users\\amrmh_000\\Desktop\\Test\\directive operands.txt",
-						"C:\\Users\\amrmh_000\\Desktop\\Test\\input.txt",
-						"C:\\Users\\amrmh_000\\Desktop\\Test\\output.txt"
+						".\\extra files\\Test\\operation code.txt",
+						".\\extra files\\Test\\directive operands.txt",
+						".\\extra files\\Test\\input.txt",
+						".\\extra files\\Test\\output.txt"
 						};
 		Pass1Handler obj = new Pass1Handler(loc[0],loc[1],loc[2],loc[3]);
 		obj.ConstructSymTable();

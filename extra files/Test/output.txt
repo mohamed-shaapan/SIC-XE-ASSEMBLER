@@ -1,0 +1,32 @@
+          .2345678901234567890                                              
+000100    prog     start   0100                                             
+000100    label    WORD    12
+          .                                                                 
+          .                                                                 
+000103    bgn      lda     alpha            
+000106    ba       add     beta             
+          .       	 add     #20              
+          .         sta     result 
+000109    bc       sta     result           
+00010c    bcdadasa sta     result
+.syntax error2
+bca      stw     result
+00010f    labe7    WORD    12
+000112    labe2    RESW    3
+00011b    labe3    RESB    6
+000121    labe4    BYTE    C'asd'
+000124    labe5    BYTE    X'123'
+
+
+
+labe7   00010f
+bc   000109
+labe5   000124
+labe4   000121
+labe3   00011b
+labe2   000112
+bgn   000103
+label   000100
+prog   000100
+ba   000106
+bcdadasa   00010c

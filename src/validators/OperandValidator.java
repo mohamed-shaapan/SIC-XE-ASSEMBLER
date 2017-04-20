@@ -47,8 +47,8 @@ public class OperandValidator implements IValidator {
     private boolean checkDirective(String content) {
         if (content.charAt(0) == 'C' || content.charAt(0) == 'c') {
             if (content.charAt(1) == '\'' && content.charAt(content.length() - 1) == '\'')
-                if (content.substring(1, content.length() - 1).length() <= 15)
-                    return checkChar(content.substring(2, content.length() - 1));
+                if (content.substring(2, content.length() - 1).length() <= 15)
+                    return true;
         }
         if (content.charAt(0) == 'X' || content.charAt(0) == 'x') {
             if (content.charAt(1) == '\'' && content.charAt(content.length() - 1) == '\'')
@@ -66,7 +66,12 @@ public class OperandValidator implements IValidator {
     }
 
     private boolean checkChar(String content) {
-        return false;
+        for (int i = 0; i < content.length(); i++) {
+            if (inBetween(content, i, 'a', 'z') || inBetween(content, i, 'A', 'Z'))
+                continue;
+            return false;
+        }
+        return true;
     }
 
     private boolean format1(String content) {
