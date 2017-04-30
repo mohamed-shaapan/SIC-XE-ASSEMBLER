@@ -1,7 +1,6 @@
 package storage;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -41,4 +40,11 @@ public class IntermediateFileHandler {
 			
 		}
 	}
+	
+	
+	public static void loadFile(String fileAAddress, Map<String, String> symbolTable, String loadedFile[][]){
+		
+	}
+	
+	
 }

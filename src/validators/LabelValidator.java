@@ -18,7 +18,6 @@ public class LabelValidator implements IValidator{
 		if(operation.hashCode()==0){
 			return checkEmpty(content);
 		}
-		//operation.hashCode()==2
 		else{
 			try{
 				return checkEmpty(content);

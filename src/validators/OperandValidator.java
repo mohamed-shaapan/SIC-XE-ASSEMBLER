@@ -4,11 +4,11 @@ import exception.StatementException;
 import statement.IStatement;
 import statement.Operation;
 
-//instruction 12344 hexadexcimal address
+// instruction 12344 hexadexcimal address
 // instruction #12344 decimal value
-// instruction label label address
-// instruction #label  address
-// instruction @label  address
+// instruction label , address
+// XX instruction #label  address
+// XX instruction @label  address
 // instruction label,x address
 //**********************************************
 //word -(4 decimal digits) or 4 decimal digits
@@ -98,11 +98,10 @@ public class OperandValidator implements IValidator {
 
     private boolean generalChecker(String content, IStatement operation) {
         // it will break if #label,x 
-    	if (content.charAt(0) == '#' || content.charAt(0) == '@') {
-            return checkName(content.substring(1)) || checkDecimalNumber(content.substring(1));
-        }
-        return checkName(content);
-
+//    	if (content.charAt(0) == '#' || content.charAt(0) == '@') {
+//            return ;
+//        }
+    	return (checkName(content) || checkDecimalNumber(content));
     }
 
 //    private boolean format4(String content, IStatement operation) {

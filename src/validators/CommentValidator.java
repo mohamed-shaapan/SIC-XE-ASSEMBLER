@@ -11,7 +11,7 @@ public class CommentValidator implements IValidator{
 	
 	@Override
 	public Boolean validate(String content, IStatement operation) throws StatementException {
-		if(content.charAt(0) == '.' || content.isEmpty())return true;
+		if(content.isEmpty())return true;
 		throw new StatementException("Invalid Comment");
 	}
 }
