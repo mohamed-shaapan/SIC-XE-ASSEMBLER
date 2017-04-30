@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import IntermediateFile.LineAddressGenerator;
+import data.Data;
 import exception.StatementException;
 import parsers.LineParser;
 import statement.IStatement;
@@ -36,6 +37,7 @@ public class Pass1Handler {
 	
 	private void fillOperationTable(){
 		statementTable = FileHandler.readFiles(operationsFileDirectory,directivesFileDirectory);
+		Data.statementTable = statementTable;
 	}
 	
 	public boolean ConstructSymTable(){
