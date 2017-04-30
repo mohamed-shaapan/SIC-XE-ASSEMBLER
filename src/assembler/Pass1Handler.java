@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import IntermediateFile.LineAddressGenerator;
+import exception.StatementException;
 import parsers.LineParser;
 import statement.IStatement;
 import storage.FileHandler;
@@ -49,12 +50,14 @@ public class Pass1Handler {
 				String[] data = lineParser.parseLine(statement);
 				if(data == null){
 					error = true;
-					lineAddressGenerator.appendError(statement, "syntax error1");
+					lineAddressGenerator.appendError(statement, "Invalid Instruction Format");
 				}
 				else{
 					//System.out.println(data[1]);
 					//System.out.println(statementTable.get(data[1]));
-					if(lineValidator.validateLine(data,statementTable.get(data[1].toLowerCase()))&&symbolTable.get(data[0])==null){
+					try{
+						lineValidator.validateLine(data,statementTable.get(data[1].toLowerCase()));
+						if(symbolTable.get(data[0])!=null)throw new StatementException("Duplicate Labels");
 						if(firstStatement){
 							firstStatement = false;
 							lineAddressGenerator.setInitialAddress(data[2]);
@@ -63,10 +66,9 @@ public class Pass1Handler {
 						if(data[0].replaceAll(" ", "").length()!=0){ //correct or "     "
 							symbolTable.put(data[0], address);
 						}
-					}
-					else{
+					}catch (StatementException e){
 						error = true;
-						lineAddressGenerator.appendError(statement, "syntax error2");
+						lineAddressGenerator.appendError(statement, e.getMessage());
 					}
 				}
 			}

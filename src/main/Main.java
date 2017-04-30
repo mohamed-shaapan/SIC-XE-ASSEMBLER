@@ -9,7 +9,7 @@ public class Main {
 	/*--org
 	--equate
 	--ltorg
-	
+	handling devices
 	*/
 	
 	public static void main(String[] args) {

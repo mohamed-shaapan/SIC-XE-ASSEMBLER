@@ -37,29 +37,29 @@ public class FileHandler {
 				String tmp[] = line.split(new String(" "));
 				String name = tmp[0];
 				int numberOfOperands = Integer.valueOf(tmp[1]);
-				IStatement directive = new Directive(name, numberOfOperands);
+				int label = Integer.valueOf(tmp[2]);
+				IStatement directive = new Directive(name, numberOfOperands,label);
 				hashTable.put(directive.getOpName(), directive);
 			}
 			bufferedReader.close();
 		} catch (Exception e) {
 		}
-
 		return hashTable;
 	}
 	
-	public static void readDirectivesFile(String directivesFileDirectory , Map<String,IStatement> mapy) {
-		try {
-			BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(directivesFileDirectory)));
-			while (bufferedReader.ready()) {
-				String line = bufferedReader.readLine();
-				String tmp[] = line.split(new String(" "));
-				String name = tmp[0];
-				int numberOfOperands = Integer.valueOf(tmp[1]);
-				IStatement directive = new Directive(name, numberOfOperands);
-				mapy.put(directive.getOpName(), directive);
-			}
-			bufferedReader.close();
-		} catch (Exception e) {
-		}
-	}
+//	public static void readDirectivesFile(String directivesFileDirectory , Map<String,IStatement> mapy) {
+//		try {
+//			BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(directivesFileDirectory)));
+//			while (bufferedReader.ready()) {
+//				String line = bufferedReader.readLine();
+//				String tmp[] = line.split(new String(" "));
+//				String name = tmp[0];
+//				int numberOfOperands = Integer.valueOf(tmp[1]);
+//				IStatement directive = new Directive(name, numberOfOperands);
+//				mapy.put(directive.getOpName(), directive);
+//			}
+//			bufferedReader.close();
+//		} catch (Exception e) {
+//		}
+//	}
 }

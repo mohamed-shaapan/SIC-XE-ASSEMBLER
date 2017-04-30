@@ -2,11 +2,12 @@ package statement;
 
 public class Directive implements IStatement{
 	private String dirName;
-	private int numberOfOperands;
+	private int numberOfOperands,label;
 	
-	public Directive(String opName,int numberOfoperands){
+	public Directive(String opName,int numberOfoperands , int label){
 		this.dirName=opName;
 		this.numberOfOperands=numberOfoperands;
+		this.label = label;
 	}
 	
 	@Override
@@ -26,13 +27,7 @@ public class Directive implements IStatement{
 	}
 	
 	@Override
-	public int getFormatType() {
-		return 0;
-	}
-
-	@Override
 	public int hasLabel() {
-		// TODO Auto-generated method stub
-		return 0;
+		return label;
 	}
 }

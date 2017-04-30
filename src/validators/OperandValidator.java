@@ -1,5 +1,6 @@
 package validators;
 
+import exception.StatementException;
 import statement.IStatement;
 import statement.Operation;
 
@@ -25,44 +26,42 @@ public class OperandValidator implements IValidator {
     }
 
     @Override
-    public Boolean validate(String content, IStatement operation) {
+    public Boolean validate(String content, IStatement operation) throws StatementException {
         String str = content.trim();
         if (operation instanceof Operation) {
-            switch (operation.getFormatType()) {
-                case 1:
-                    return format1(str);
-                case 2:
-                    return format2(str);
-                case 3:
-                    return format3(str, operation);
-                case 4:
-                    return format4(str, operation);
-            }
+        	return format3(str, operation);
         } else {
-            return checkDirective(str);
+            return checkDirective(str,operation);
         }
-        return false;
     }
 
-    private boolean checkDirective(String content) {
-        if (content.charAt(0) == 'C' || content.charAt(0) == 'c') {
-            if (content.charAt(1) == '\'' && content.charAt(content.length() - 1) == '\'')
-                if (content.substring(2, content.length() - 1).length() <= 15)
-                    return true;
-        }
-        if (content.charAt(0) == 'X' || content.charAt(0) == 'x') {
-            if (content.charAt(1) == '\'' && content.charAt(content.length() - 1) == '\'')
-                return checkHexaNumber(content.substring(2, content.length() - 1))
-                        && content.substring(1, content.length() - 1).length() <= 14;
-        }
-        if (content.length() <= 5) {
-            if (content.charAt(0) == '-') {
-                return checkDecimalNumber(content.substring(1));
-            } else {
-                return checkDecimalNumber(content);
+    // it will break if we try BYTE -123 or WORD C'assa'
+    private boolean checkDirective(String content ,IStatement directive) throws StatementException {
+        boolean flag = false;
+        if(directive.getOpName().equalsIgnoreCase("BYTE")){
+        	if (content.charAt(0) == 'C' || content.charAt(0) == 'c') {
+                if (content.charAt(1) == '\'' && content.charAt(content.length() - 1) == '\'')
+                    if (content.substring(2, content.length() - 1).length() <= 15)
+                        flag = true;
             }
+            if (content.charAt(0) == 'X' || content.charAt(0) == 'x') {
+                if (content.charAt(1) == '\'' && content.charAt(content.length() - 1) == '\'')
+                    flag = checkHexaNumber(content.substring(2, content.length() - 1))
+                            && content.substring(1, content.length() - 1).length() <= 14;
+            }
+    	}
+        if(directive.getOpName().equalsIgnoreCase("WORD")){
+        	if (content.length() <= 5 && !flag) {
+                if (content.charAt(0) == '-') {
+                    flag =  checkDecimalNumber(content.substring(1));
+                } else {
+                    flag =  checkDecimalNumber(content);
+                }
+            }
+
         }
-        return false;
+        if(flag)return true;
+        throw new StatementException("Invalid Directive Operands");
     }
 
     private boolean checkChar(String content) {
@@ -74,50 +73,53 @@ public class OperandValidator implements IValidator {
         return true;
     }
 
-    private boolean format1(String content) {
-        return content.isEmpty();
-    }
+//    private boolean format1(String content) {
+//        return content.isEmpty();
+//    }
+//
+//    private boolean format2(String content) {
+//        if (content.length() == 1) {
+//            return isRegister(content);
+//        }
+//        if (content.length() == 3) {
+//            return isRegister(content.substring(0, 1)) && isRegister(content.substring(2));
+//        }
+//        return false;
+//    }
 
-    private boolean format2(String content) {
-        if (content.length() == 1) {
-            return isRegister(content);
+    private boolean format3(String content, IStatement operation) throws StatementException {
+    	if (content.substring(0, 2).equalsIgnoreCase("0x")) {
+           if(checkHexaNumber(content.substring(3)))return true;
+           throw new StatementException("Invalid Hexadecimal Address");
         }
-        if (content.length() == 3) {
-            return isRegister(content.substring(0, 1)) && isRegister(content.substring(2));
-        }
-        return false;
-    }
-
-    private boolean format3(String content, IStatement operation) {
-        if (content.substring(0, 2).equalsIgnoreCase("0x")) {
-            return checkHexaNumber(content.substring(3));
-        }
-        return generalChecker(content, operation);
+        if(generalChecker(content, operation))return true;
+        throw new StatementException("Invalid Operation Operand");
     }
 
     private boolean generalChecker(String content, IStatement operation) {
-        if (content.charAt(0) == '#' || content.charAt(0) == '@') {
+        // it will break if #label,x 
+    	if (content.charAt(0) == '#' || content.charAt(0) == '@') {
             return checkName(content.substring(1)) || checkDecimalNumber(content.substring(1));
         }
         return checkName(content);
 
     }
 
-    private boolean format4(String content, IStatement operation) {
-        if (content.substring(0, 2).equalsIgnoreCase("0x")) {
-            return checkHexaNumber(content.substring(3));
-        }
-        return generalChecker(content, operation);
-    }
+//    private boolean format4(String content, IStatement operation) {
+//        if (content.substring(0, 2).equalsIgnoreCase("0x")) {
+//            return checkHexaNumber(content.substring(3));
+//        }
+//        return generalChecker(content, operation);
+//    }
 
-    private boolean isRegister(String reg) {
-        String[] registers = new String[] {"A", "S", "T", "L", "B", "F"};
-        for (String c : registers) {
-            if (reg.equalsIgnoreCase(c))
-                return true;
-        }
-        return false;
-    }
+//    private boolean isRegister(String reg) {
+//        String[] registers = new String[] {"A", "S", "T", "L", "B", "F"};
+//        for (String c : registers) {
+//            if (reg.equalsIgnoreCase(c))
+//                return true;
+//        }
+//        return false;
+//    }
 
     private boolean checkName(String content) {
         int i = 0;

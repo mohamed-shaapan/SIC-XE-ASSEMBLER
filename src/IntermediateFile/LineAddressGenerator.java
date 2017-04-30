@@ -36,7 +36,7 @@ public class LineAddressGenerator {
 	public String appendStatement(String originalStatement, String statementContent[], IStatement statement) {
 		currentLineAddress = nextLineAddress;
 		if (statement instanceof Operation) {
-			nextLineAddress = calculateNextLineAddress(statement.getFormatType());
+			nextLineAddress = calculateNextLineAddress();
 		} else {
 			nextLineAddress = calculateNextLineAddress(statementContent);
 		}
@@ -87,8 +87,8 @@ public class LineAddressGenerator {
 		return nextLineAddress;
 	}
 
-	private int calculateNextLineAddress(int formatType) {
-		return nextLineAddress + Math.min(4, formatType);
+	private int calculateNextLineAddress() {
+		return nextLineAddress + 3;
 	}
 
 	private String convertToHexa(int value) {
@@ -99,17 +99,5 @@ public class LineAddressGenerator {
 		}
 		val+=str;
 		return val;
-		/*
-		String str = "", val = "";
-		while (str.length() < 6) {
-			int curr = value % 16;
-			value /= 16;
-			str += curr;
-		}
-		for (int i = str.length() - 1; i >= 0; i--) {
-			val += str.charAt(i);
-		}
-		return val;
-		*/
 	}
 }

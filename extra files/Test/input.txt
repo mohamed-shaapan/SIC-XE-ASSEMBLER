@@ -1,9 +1,9 @@
 .2345678901234567890                                              
 prog     start   0100                                             
-label    WORD    12
+         WORD    12
 .                                                                 
 .                                                                 
-bgn      lda     alpha            
+         lda     alpha            
 ba       add     beta             
 .       	 add     #20              
 .         sta     result 
