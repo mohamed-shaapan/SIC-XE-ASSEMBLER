@@ -1,6 +1,6 @@
 package interfaces;
 
-public interface ObjectCoderHandlerIF {
+public interface ObjectCodeHandlerIF {
 
     public void writeFile(String fileDirectory);
 

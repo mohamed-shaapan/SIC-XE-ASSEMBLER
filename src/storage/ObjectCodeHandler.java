@@ -4,13 +4,13 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import interfaces.ObjectCoderHandlerIF;
+import interfaces.ObjectCodeHandlerIF;
 import obLine.obLineIF.Obline;
 import obLine.obLineImp.EndRecord;
 import obLine.obLineImp.HeaderRecord;
 import obLine.obLineImp.TextRecord;
 
-public class ObjectCodeHandler implements ObjectCoderHandlerIF {
+public class ObjectCodeHandler implements ObjectCodeHandlerIF {
 
     private ArrayList<Obline> obLines;
 
