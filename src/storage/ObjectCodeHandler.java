@@ -15,19 +15,40 @@ public class ObjectCodeHandler implements ObjectCodeHandlerIF {
     private ArrayList<Obline> obLines;
 
     private ArrayList<ArrayList<String>> table;
+    /**
+     * This is the table form
+     * The table MUST BE LIKE That.
+     * +------------------+----------------+
+     * | Location Counter |     OPCode     |
+     * |-----------------------------------|
+     * | first Address    |  Program Name  | -> for Start
+     * |------------------|----------------|
+     * | first address    |    OPCode      |
+     * |------------------|----------------|
+     * | Second address   |   OP Code      |
+     * |------------------|----------------|
+     * |                  .                |
+     * |                  .                |
+     * |                  .                |
+     * |------------------|----------------|
+     * | Last address     |   OP Code      | --> Last line before End
+     * |-----------------------------------|
+     * */
 
     public ObjectCodeHandler(ArrayList<ArrayList<String>> table) {
         // TODO Auto-generated constructor stub
         this.table = table;
         generateObjectCode();
     }
-
+    /**
+     *  Generate Object Code and Store them in the ArrayList Called Obline.
+     * */
     private void generateObjectCode() {
         int len = 0;
         StringBuilder content = new StringBuilder();
         int totalSize = 0;
         String startingAddress = new String();
-        for (int i = 1; i < table.size() - 1; i++) {
+        for (int i = 1; i < table.size(); i++) {
             ArrayList<String> line = table.get(i);
             if (line.get(1).equals("")) {
                 if (len == 0) {
@@ -58,7 +79,7 @@ public class ObjectCodeHandler implements ObjectCodeHandlerIF {
 
     }
 
-    /** Write the Object code in a file */
+    /** Write the Object code in a file  */
     public void writeFile(String fileDirectory) {
         try {
             PrintWriter printWriter = new PrintWriter(new File(fileDirectory));
