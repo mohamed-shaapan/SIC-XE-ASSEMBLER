@@ -1,5 +1,6 @@
 package validators;
 
+import data.Data;
 import exception.StatementException;
 import statement.IStatement;
 import statement.Operation;
@@ -60,6 +61,14 @@ public class OperandValidator implements IValidator {
             }
 
         }
+        if(directive.getOpName().equalsIgnoreCase("START") || directive.getOpName().equalsIgnoreCase("RESW")
+        		|| directive.getOpName().equalsIgnoreCase("RESB")){
+        	flag =  checkDecimalNumber(content);
+        }
+        
+        if(directive.getOpName().equalsIgnoreCase("END")){
+        	flag = checkName(content);
+        }
         if(flag)return true;
         throw new StatementException("Invalid Directive Operands");
     }
@@ -88,10 +97,10 @@ public class OperandValidator implements IValidator {
 //    }
 
     private boolean format3(String content, IStatement operation) throws StatementException {
-    	if (content.substring(0, 2).equalsIgnoreCase("0x")) {
-           if(checkHexaNumber(content.substring(3)))return true;
-           throw new StatementException("Invalid Hexadecimal Address");
-        }
+//    	if(Data.symbolTable.get(content)==null){
+//    		if(checkHexaNumber(content.substring(3)))return true;
+//            throw new StatementException("Invalid Hexadecimal Address")
+//    	}
         if(generalChecker(content, operation))return true;
         throw new StatementException("Invalid Operation Operand");
     }
@@ -101,7 +110,7 @@ public class OperandValidator implements IValidator {
 //    	if (content.charAt(0) == '#' || content.charAt(0) == '@') {
 //            return ;
 //        }
-    	return (checkName(content) || checkDecimalNumber(content));
+    	return (checkName(content) || checkHexaNumber(content));
     }
 
 //    private boolean format4(String content, IStatement operation) {
@@ -139,7 +148,8 @@ public class OperandValidator implements IValidator {
     }
 
     private boolean checkDecimalNumber(String content) {
-        for (int i = 0; i < content.length(); i++) {
+        content = content.trim();
+    	for (int i = 0; i < content.length(); i++) {
             if (inBetween(content, i, '0', '9'))
                 continue;
             return false;
@@ -161,6 +171,6 @@ public class OperandValidator implements IValidator {
     }
 
     private boolean inBetween(String content, int index, char start, char end) {
-        return content.charAt(index) >= start && content.charAt(index) <= end;
+        return content.isEmpty() || (content.charAt(index) >= start && content.charAt(index) <= end);
     }
 }

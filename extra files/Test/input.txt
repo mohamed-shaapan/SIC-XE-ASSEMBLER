@@ -1,17 +1,8 @@
 .2345678901234567890                                              
 prog     start   0100                                             
-         WORD    12
-.                                                                 
-.                                                                 
-         lda     alpha            
-ba       add     beta             
+         lda     ba            
+ba       add     bc             
 .       	 add     #20              
 .         sta     result 
-bc       sta     result           
-bcdadasa sta     result
-bca      stw     result
-labe7    WORD    12
-labe2    RESW    3
-labe3    RESB    6
-labe4    BYTE    C'asd'
-labe5    BYTE    X'123'
+bc       sta     bc           
+bcdadasa sta     bc

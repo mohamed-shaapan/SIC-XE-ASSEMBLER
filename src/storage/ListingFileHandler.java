@@ -13,6 +13,7 @@ public class ListingFileHandler {
 			for(String line : listingFile){
 				printWriter.println(line);
 			}
+			printWriter.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
