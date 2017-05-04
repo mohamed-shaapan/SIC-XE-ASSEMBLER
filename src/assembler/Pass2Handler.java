@@ -83,9 +83,9 @@ public class Pass2Handler {
                     /***************
                      * I need to Get the Location Counter
                      *****************/
-                    // StartingAddress = get the location counter from line;
+                    StartingAddress = intermediateFileContent.get(ind - 1).get(0);
                 }
-                if (len + objectCode.length() < 60) {
+                if (len + objectCode.length() <= 60) {
                     len += objectCode.length();
                     content.append(objectCode);
                 } else {
@@ -100,8 +100,9 @@ public class Pass2Handler {
                 break;
         }
         totalSize += 9;
-        obLines.add(0, new HeaderRecord(/**The name of the Program*/, /**address was put beside Start*/, totalSize));
-        obLines.add(new EndRecord(/**address was put beside Start*/));
+        obLines.add(0, new HeaderRecord(intermediateFileContent.get(0).get(1), intermediateFileContent.get(0).get(0),
+                totalSize));
+        obLines.add(new EndRecord(intermediateFileContent.get(0).get(1)));
         while (ind < intermediateFile.size()) {
             this.listingFile.add(intermediateFile.get(ind++));
         }
