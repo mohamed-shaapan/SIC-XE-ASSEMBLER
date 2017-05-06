@@ -1,11 +1,11 @@
-001000    COPY     START   0X'1000'               
+001000    COPY     StArT   0X'1000'               
 001000    FIRST    STL     RETADR
 001003    CLOOP    JSUB    RDREC
 001006             LDA     LENGTH
 001009             COMP    ZERO
 00100c             JEQ     ENDFIL
 00100f             JSUB    WRREC
-001012             J       CLOOP
+001012             J       *,x
 001015    ENDFIL   LDA     EOF
 001018             STA     BUFFER
 00101b             LDA     THREE

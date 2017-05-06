@@ -33,7 +33,8 @@ public class Checker {
     }
 
 	public static boolean checkHexaNumber(String content) {
-        if(content.trim().isEmpty())return false;
+        content = content.trim();
+		if(content.isEmpty())return false;
     	for (int i = 0; i < content.length(); i++) {
             if (inBetween(content, i, '0', '9'))
                 continue;
@@ -47,13 +48,15 @@ public class Checker {
     }
 
 	public static boolean checkStar(String content) {
-        if(content.trim().isEmpty())return false;
-        return content.equals(new String("*"));
+        content = content.trim();
+		if(content.trim().isEmpty())return false;
+        return content.equals(new String("*")) || content.equalsIgnoreCase(new String("*,x"));
     }
 
 	
 	public static boolean checkHexaAddress(String content) {
-        if(content.trim().isEmpty() || content.trim().length()<5)return false;
+        content = content.trim();
+		if(content.trim().isEmpty() || content.trim().length()<5)return false;
         boolean flag = false;
         if (content.charAt(0) == '0' && content.charAt(1) == 'X')
             if (content.charAt(2) == '\'' && content.charAt(content.length() - 1) == '\'')
@@ -67,6 +70,7 @@ public class Checker {
     }
 	
 	public static boolean checkChar(String content) {
+		content = content.trim();
         for (int i = 0; i < content.length(); i++) {
             if (inBetween(content, i, 'a', 'z') || inBetween(content, i, 'A', 'Z'))
                 continue;
