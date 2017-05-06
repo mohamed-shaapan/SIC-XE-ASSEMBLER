@@ -11,7 +11,6 @@ public class CommentValidator implements IValidator{
 	
 	@Override
 	public Boolean validate(String content, IStatement operation) throws StatementException {
-		if(content.isEmpty())return true;
-		throw new StatementException("Invalid Comment");
+		return true;
 	}
 }

@@ -41,7 +41,7 @@
 004070             TIX     LENGTH
 004073             JLT     WLOOP
 004076             RSUB
-004079    OUTPUT   BYTE    X'05'
+004079    OUTPUT   BYTE    X'05'         
 00407a             END     FIRST
 
 

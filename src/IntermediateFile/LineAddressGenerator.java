@@ -14,27 +14,25 @@ public class LineAddressGenerator {
 	// *******************************************************
 	private List<String> intermediateContent;
 	private int currentLineAddress, nextLineAddress;
+	public static boolean error;
 
 	// 02_CONSTRUCTOR
 	// *******************************************************
 	// we call it on first statement (start)
 	public LineAddressGenerator() {
 		intermediateContent = new ArrayList<String>();
+		currentLineAddress = convertFromHexaToDeca(new String("000000"));
+		nextLineAddress = currentLineAddress;
 	}
 
-	public void setInitialAddress(String startOperand) {
-		int num = 0;
-		for (int i = startOperand.length() - 1; i >= 0; i--) {
-			num += (startOperand.charAt(i) - '0') * Math.pow(16, startOperand.length() - 1 - i);
-		}
-		currentLineAddress = num;
+	public void setInitialAddress(String startOperand) {		
+		currentLineAddress = convertFromHexaToDeca(startOperand);
 		nextLineAddress = currentLineAddress;
 	}
 
 	// 03_METHODS
 	// *******************************************************
 	public String appendStatement(String originalStatement, String statementContent[], IStatement statement) {
-		currentLineAddress = nextLineAddress;
 		if (statement instanceof Operation) {
 			nextLineAddress = calculateNextLineAddress();
 		} else {
@@ -45,12 +43,14 @@ public class LineAddressGenerator {
 		String line = address + "    " + originalStatement;
 		intermediateContent.add(line);
 		// System.out.println(line);
+		currentLineAddress = nextLineAddress;
 		return address;
 	}
 
 	public void appendError(String originalStatement, String errorMessege) {
-		intermediateContent.add(new String("." + errorMessege));
-		intermediateContent.add(originalStatement);
+		error = true;
+		intermediateContent.add(new String(". ****" + errorMessege));
+		intermediateContent.add(convertToHexa(currentLineAddress) + "    " + originalStatement);
 	}
 
 	public void appendComment(String originalStatement) {
@@ -99,5 +99,13 @@ public class LineAddressGenerator {
 		}
 		val+=str;
 		return val;
+	}
+	
+	private int convertFromHexaToDeca(String Hexa){
+		int num = 0;
+		for (int i = Hexa.length() - 1; i >= 0; i--) {
+			num += (Hexa.charAt(i) - '0') * Math.pow(16, Hexa.length() - 1 - i);
+		}
+		return num;
 	}
 }
