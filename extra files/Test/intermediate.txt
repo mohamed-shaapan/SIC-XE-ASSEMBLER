@@ -18,31 +18,31 @@
 001030    ZERO     WORD    0
 001033    RETADR   RESW    1
 001036    LENGTH   RESW    1
-001039    BUFFER   RESW    4096
-004039    RDREC    LDX     ZERO
-00403c             LDA     ZERO
-00403f    RLOOP    TD      INPUT
-004042             JEQ     RLOOP
-004045             RD      INPUT
-004048             COMP    ZERO
-00404b             JEQ     EXIT
-00404e             STCH    BUFFER,X
-004051             TIX     MAXLEN
-004054             JLT     RLOOP
-004057    EXIT     STX     LENGTH
-00405a             RSUB
-00405d    INPUT    BYTE    X'F1'
-00405e    MAXLEN   WORD    4096
-004061    WRREC    LDX     ZERO
-004064    WLOOP    TD      OUTPUT
-004067             JEQ     WLOOP
-00406a             LDCH    BUFFER,X
-00406d             WD      OUTPUT
-004070             TIX     LENGTH
-004073             JLT     WLOOP
-004076             RSUB
-004079    OUTPUT   BYTE    X'05'
-00407a             END     FIRST
+001039    BUFFER   RESB    4096
+002039    RDREC    LDX     ZERO
+00203c             LDA     ZERO
+00203f    RLOOP    TD      INPUT
+002042             JEQ     RLOOP
+002045             RD      INPUT
+002048             COMP    ZERO
+00204b             JEQ     EXIT
+00204e             STCH    BUFFER,X
+002051             TIX     MAXLEN
+002054             JLT     RLOOP
+002057    EXIT     STX     LENGTH
+00205a             RSUB
+00205d    INPUT    BYTE    X'F1'
+00205e    MAXLEN   WORD    4096
+002061    WRREC    LDX     ZERO
+002064    WLOOP    TD      OUTPUT
+002067             JEQ     WLOOP
+00206a             LDCH    BUFFER,X
+00206d             WD      OUTPUT
+002070             TIX     LENGTH
+002073             JLT     WLOOP
+002076             RSUB
+002079    OUTPUT   BYTE    X'05'
+00207a             END     FIRST
 
 
 
@@ -52,11 +52,11 @@ s y m b o l  t a b l e
 +--------+--------+
 | ZERO   | 001030 | 
 +--------+--------+
-| INPUT  | 00405d | 
+| INPUT  | 00205d | 
 +--------+--------+
-| WRREC  | 004061 | 
+| WRREC  | 002061 | 
 +--------+--------+
-| OUTPUT | 004079 | 
+| OUTPUT | 002079 | 
 +--------+--------+
 | ENDFIL | 001015 | 
 +--------+--------+
@@ -70,19 +70,19 @@ s y m b o l  t a b l e
 +--------+--------+
 | BUFFER | 001039 | 
 +--------+--------+
-| RLOOP  | 00403f | 
+| RLOOP  | 00203f | 
 +--------+--------+
-| MAXLEN | 00405e | 
+| MAXLEN | 00205e | 
 +--------+--------+
 | CLOOP  | 001003 | 
 +--------+--------+
-| WLOOP  | 004064 | 
+| WLOOP  | 002064 | 
 +--------+--------+
 | EOF    | 00102a | 
 +--------+--------+
-| RDREC  | 004039 | 
+| RDREC  | 002039 | 
 +--------+--------+
-| EXIT   | 004057 | 
+| EXIT   | 002057 | 
 +--------+--------+
 | THREE  | 00102d | 
 +--------+--------+

@@ -52,7 +52,7 @@ public class Pass2Handler {
         int ind = 0;
         int len = 0;
         StringBuilder content = new StringBuilder();
-        int totalSize = 0;
+        int totalSize = 2;
         String StartingAddress = new String();
         for (String line : this.intermediateFile) {
             ind++;
@@ -65,8 +65,18 @@ public class Pass2Handler {
             if (Data.statementTable
                     .get(intermediateFileContent.get(ind - 1).get(2).toLowerCase()) instanceof Directive) {
                 objectCode = generateDirectiveObjectCode(intermediateFileContent.get(ind - 1));
+                if (intermediateFileContent.get(ind - 1).get(2).equalsIgnoreCase("BYTE")) {
+                    totalSize += 1;
+                } else if (intermediateFileContent.get(ind - 1).get(2).equalsIgnoreCase("WORD")) {
+                    totalSize += 3;
+                } else if (intermediateFileContent.get(ind - 1).get(2).equalsIgnoreCase("RESB")) {
+                    totalSize += Integer.valueOf(intermediateFileContent.get(ind - 1).get(3));
+                } else if (intermediateFileContent.get(ind - 1).get(2).equalsIgnoreCase("RESW")) {
+                    totalSize += Integer.valueOf(intermediateFileContent.get(ind - 1).get(3)) * 3;
+                }
             } else {
                 objectCode = generateInstructionObjectCode(this.intermediateFileContent.get(ind - 1));
+                totalSize += 3;
             }
             /***********************
              * Object Line Generations
@@ -74,7 +84,6 @@ public class Pass2Handler {
             if (objectCode.equals("")) {
                 if (len != 0) {
                     obLines.add(new TextRecord(StartingAddress, len, content.toString()));
-                    totalSize += len;
                     content = new StringBuilder();
                     len = 0;
                 }
@@ -85,24 +94,35 @@ public class Pass2Handler {
                      *****************/
                     StartingAddress = intermediateFileContent.get(ind - 1).get(0);
                 }
-                if (len + objectCode.length() <= 60) {
-                    len += objectCode.length();
+                if (len + (objectCode.length() / 2) <= 30) {
+                    len += (objectCode.length() / 2);
                     content.append(objectCode);
                 } else {
                     obLines.add(new TextRecord(StartingAddress, len, content.toString()));
-                    totalSize += len;
-                    len = 0;
+                    len = objectCode.length() / 2;
+                    StartingAddress = intermediateFileContent.get(ind - 1).get(0);
                     content = new StringBuilder();
+                    content.append(objectCode);
+
                 }
             }
+            /************************
+             * End of Object Code Generation
+             *****************************/
             this.listingFile.add(line + "    " + objectCode);
             if (intermediateFileContent.size() == ind)
                 break;
         }
-        totalSize += 9;
+        if (len != 0) {
+            obLines.add(new TextRecord(StartingAddress, len, content.toString()));
+        }
+        /***************************
+         * Adding Start and End Record
+         *****************************/
         obLines.add(0, new HeaderRecord(intermediateFileContent.get(0).get(1), intermediateFileContent.get(0).get(0),
                 totalSize));
-        obLines.add(new EndRecord(intermediateFileContent.get(0).get(1)));
+        obLines.add(new EndRecord(intermediateFileContent.get(0).get(0)));
+        /*****************************************/
         while (ind < intermediateFile.size()) {
             this.listingFile.add(intermediateFile.get(ind++));
         }
