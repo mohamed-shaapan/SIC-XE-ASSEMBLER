@@ -34,7 +34,7 @@ public class LabelValidator implements IValidator{
 		if(cond1&&cond2){
 			return true;
 		}
-		throw new StatementException("Invalid Label");
+		throw new StatementException("Invalid Label Name");
 	}
 	
 	private boolean checkEmpty(String content) throws StatementException{
@@ -42,6 +42,6 @@ public class LabelValidator implements IValidator{
 		if(cond1){
 			return true;
 		}
-		throw new StatementException("Invalid Label");
+		throw new StatementException("Invalid Label must be blank");
 	}
 }

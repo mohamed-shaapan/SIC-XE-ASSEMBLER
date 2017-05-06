@@ -59,7 +59,6 @@ public class IntermediateFileHandler {
 				if(line.trim().startsWith(".")){
 					IntermediateFile.add(line);
 					currentValues.add(".");
-					loadedFileContent.add((ArrayList<String>) currentValues.clone());
 					continue;
 				}
 				if(line.equals(""))continue;

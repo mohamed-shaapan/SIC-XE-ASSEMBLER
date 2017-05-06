@@ -17,10 +17,13 @@ public class Main {
 						".\\extra files\\Test\\directive operands.txt",
 						".\\extra files\\Test\\input2.txt",
 						".\\extra files\\Test\\intermediate.txt",
-						".\\extra files\\Test\\listing.txt"
+						".\\extra files\\Test\\listing.txt",
+						".\\extra files\\Test\\object file.txt"
 						};
 		Pass1Handler obj1 = new Pass1Handler(loc[0],loc[1],loc[2],loc[3]);
-		obj1.ConstructSymTable();
-		Pass2Handler obj2 = new Pass2Handler(loc[3],loc[4]);
+		boolean pass1Error = obj1.ConstructSymTable();
+		if(!pass1Error){
+			Pass2Handler obj2 = new Pass2Handler(loc[3],loc[4],loc[5]);
+		}
 	}
 }
