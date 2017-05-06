@@ -15,7 +15,7 @@ public class Main {
 		String[] loc = {
 						".\\extra files\\Test\\operation code.txt",
 						".\\extra files\\Test\\directive operands.txt",
-						".\\extra files\\Test\\input1.txt",
+						".\\extra files\\Test\\input.txt",
 						".\\extra files\\Test\\intermediate.txt",
 						".\\extra files\\Test\\listing.txt",
 						".\\extra files\\Test\\object file.txt"
