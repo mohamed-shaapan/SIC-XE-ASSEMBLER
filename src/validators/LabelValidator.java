@@ -1,7 +1,9 @@
 package validators;
 
+import data.Data;
 import exception.StatementException;
 import statement.IStatement;
+import statement.Operation;
 
 public class LabelValidator implements IValidator{
 
@@ -30,7 +32,8 @@ public class LabelValidator implements IValidator{
 		int ind = Math.max(content.indexOf(" "),0);
 		boolean cond1 = content.substring(0,ind).matches("[a-zA-Z0-9]*");
 		boolean cond2 = content.substring(0, 1).matches("[a-zA-Z]");
-		if(cond1&&cond2){
+		boolean cond3 = (Data.statementTable.get(content.toLowerCase().trim())==null);
+		if(cond1&&cond2&&cond3){
 			return true;
 		}
 		throw new StatementException("Invalid Label Name");

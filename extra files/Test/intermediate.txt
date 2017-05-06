@@ -1,48 +1,16 @@
-000000    COPY     START   0X'0'
-000000    FIRST    STL     RETADR
-000003    CLOOP    JSUB    RDREC
-000006             LDA     LENGTH
-000009             COMP    ZERO
-00000c             JEQ     ENDFIL
-00000f             JSUB    WRREC
-000012             J       CLOOP
-000015    ENDFIL   LDA     EOF
-000018             STA     BUFFER
-00001b             LDA     THREE
-00001e             STA     LENGTH
-000021             JSUB    WRREC
-000024             LDL     RETADR
-000027             RSUB
-00002a    EOF      BYTE    C'EOF'
-00002d    THREE    WORD    3
-000030    ZERO     WORD    0
-000033    RETADR   RESW    1
-000036    LENGTH   RESW    1
-000039    BUFFER   RESW    4096
-003039    RDREC    LDX     ZERO
-00303c             LDA     ZERO
-00303f    RLOOP    TD      INPUT
-003042             JEQ     RLOOP
-003045             RD      INPUT
-003048             COMP    ZERO
-00304b             JEQ     EXIT
-00304e             STCH    BUFFER,X
-003051             TIX     MAXLEN
-003054             JLT     RLOOP
-003057    EXIT     STX     LENGTH
-00305a             RSUB
-00305d    INPUT    BYTE    X'F1'
-00305e    MAXLEN   WORD    4096
-003061    WRREC    LDX     ZERO
-003064    WLOOP    TD      OUTPUT
-003067             JEQ     WLOOP
-00306a             LDCH    BUFFER,X
-00306d             WD      OUTPUT
-003070             TIX     LENGTH
-003073             JLT     WLOOP
-003076             RSUB
-. ****Missing END Statement
-003079    OUTPUT   BYTE    X'05'
+          .2345678901234567890                                                                                        
+000100    prog     start   0X'0100'                                             
+          .                                                                 
+          .                                                                 
+000100    bgn      lda     *
+000103             and     *
+. ****Invalid Label Name
+000106    lda      td      lda
+000106             comp    *                                               
+000109    alpha    word    10
+00010c    beta     word    24                                               
+00010f    result   resb    10
+000119             end     
 
 
 
@@ -50,38 +18,14 @@ s y m b o l  t a b l e
 +--------+--------+
 | name   | value  | 
 +--------+--------+
-| ZERO   | 000030 | 
+| result | 00010f | 
 +--------+--------+
-| INPUT  | 00305d | 
+| alpha  | 000109 | 
 +--------+--------+
-| WRREC  | 003061 | 
+| bgn    | 000100 | 
 +--------+--------+
-| ENDFIL | 000015 | 
+| prog   | 000100 | 
 +--------+--------+
-| LENGTH | 000036 | 
-+--------+--------+
-| COPY   | 000000 | 
-+--------+--------+
-| FIRST  | 000000 | 
-+--------+--------+
-| RETADR | 000033 | 
-+--------+--------+
-| BUFFER | 000039 | 
-+--------+--------+
-| RLOOP  | 00303f | 
-+--------+--------+
-| MAXLEN | 00305e | 
-+--------+--------+
-| CLOOP  | 000003 | 
-+--------+--------+
-| WLOOP  | 003064 | 
-+--------+--------+
-| EOF    | 00002a | 
-+--------+--------+
-| RDREC  | 003039 | 
-+--------+--------+
-| EXIT   | 003057 | 
-+--------+--------+
-| THREE  | 00002d | 
+| beta   | 00010c | 
 +--------+--------+
 

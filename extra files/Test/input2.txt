@@ -1,4 +1,4 @@
-COPY     START   0X'0'
+COPY     START   0X'100000'               
 FIRST    STL     RETADR
 CLOOP    JSUB    RDREC
          LDA     LENGTH
@@ -11,8 +11,8 @@ ENDFIL   LDA     EOF
     	 LDA     THREE
     	 STA     LENGTH
     	 JSUB    WRREC
-    	 LDL     RETADR
-    	 RSUB
+         LDL     RETADR
+         RSUB
 EOF      BYTE    C'EOF'
 THREE    WORD    3
 ZERO     WORD    0
@@ -21,7 +21,7 @@ LENGTH   RESW    1
 BUFFER   RESW    4096
 RDREC    LDX     ZERO
          LDA     ZERO
-RLOOP    TD      INPUT
+RLOOP	 TD      INPUT
          JEQ     RLOOP
     	 RD      INPUT
     	 COMP    ZERO
@@ -41,4 +41,5 @@ WLOOP    TD      OUTPUT
     	 TIX     LENGTH
     	 JLT     WLOOP
     	 RSUB
-OUTPUT   BYTE    X'05'
+OUTPUT   BYTE    X'05'		 
+         END     FIRST

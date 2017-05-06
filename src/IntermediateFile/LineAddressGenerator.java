@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import exception.StatementException;
 import statement.IStatement;
 import statement.Operation;
 import tools.Checker;
@@ -33,13 +34,17 @@ public class LineAddressGenerator {
 
 	// 03_METHODS
 	// *******************************************************
-	public String appendStatement(String originalStatement, String statementContent[], IStatement statement) {
+	public String appendStatement(String originalStatement, String statementContent[], IStatement statement) throws StatementException {
 		if (statement instanceof Operation) {
 			nextLineAddress = calculateNextLineAddress();
 		} else {
 			nextLineAddress = calculateNextLineAddress(statementContent);
 		}
 		// 02_generate current line for intermediate file
+		if(currentLineAddress >= Math.pow(2, 15)){
+			nextLineAddress = currentLineAddress;
+			throw new StatementException("Out of Memory Range");
+		}
 		String address = Checker.getHexaFromDecimal(String.valueOf(currentLineAddress));
 		String line = address + "    " + originalStatement;
 		intermediateContent.add(line);
