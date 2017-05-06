@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import statement.IStatement;
 import statement.Operation;
+import tools.Checker;
 
 public class LineAddressGenerator {
 
@@ -21,12 +22,12 @@ public class LineAddressGenerator {
 	// we call it on first statement (start)
 	public LineAddressGenerator() {
 		intermediateContent = new ArrayList<String>();
-		currentLineAddress = convertFromHexaToDeca(new String("000000"));
+		currentLineAddress = Checker.convertFromHexaToDeca(new String("000000"));
 		nextLineAddress = currentLineAddress;
 	}
 
-	public void setInitialAddress(String startOperand) {		
-		currentLineAddress = convertFromHexaToDeca(startOperand);
+	public void setInitialAddress(String startOperand) {
+		currentLineAddress = Checker.convertFromHexaToDeca(startOperand.substring(3,startOperand.length()-1));
 		nextLineAddress = currentLineAddress;
 	}
 
@@ -39,7 +40,7 @@ public class LineAddressGenerator {
 			nextLineAddress = calculateNextLineAddress(statementContent);
 		}
 		// 02_generate current line for intermediate file
-		String address = convertToHexa(currentLineAddress);
+		String address = Checker.getHexaFromDecimal(String.valueOf(currentLineAddress));
 		String line = address + "    " + originalStatement;
 		intermediateContent.add(line);
 		// System.out.println(line);
@@ -50,7 +51,8 @@ public class LineAddressGenerator {
 	public void appendError(String originalStatement, String errorMessege) {
 		error = true;
 		intermediateContent.add(new String(". ****" + errorMessege));
-		intermediateContent.add(convertToHexa(currentLineAddress) + "    " + originalStatement);
+		intermediateContent
+				.add(Checker.getHexaFromDecimal(String.valueOf(currentLineAddress)) + "    " + originalStatement);
 	}
 
 	public void appendComment(String originalStatement) {
@@ -80,7 +82,7 @@ public class LineAddressGenerator {
 			queryMatcher = Pattern.compile(hexPattern).matcher(currentStatement[2]);
 			if (queryMatcher.matches()) {
 				String value = queryMatcher.group(3);
-				nextLineAddress += Math.ceil(value.length()*1. / 2.);
+				nextLineAddress += Math.ceil(value.length() * 1. / 2.);
 			}
 		}
 		// ORG EQUATE
@@ -89,23 +91,5 @@ public class LineAddressGenerator {
 
 	private int calculateNextLineAddress() {
 		return nextLineAddress + 3;
-	}
-
-	private String convertToHexa(int value) {
-		String str = Integer.toHexString(value);
-		String val = "";
-		while(val.length()+str.length()!=6){
-			val+="0";
-		}
-		val+=str;
-		return val;
-	}
-	
-	private int convertFromHexaToDeca(String Hexa){
-		int num = 0;
-		for (int i = Hexa.length() - 1; i >= 0; i--) {
-			num += (Hexa.charAt(i) - '0') * Math.pow(16, Hexa.length() - 1 - i);
-		}
-		return num;
 	}
 }

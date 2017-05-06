@@ -25,6 +25,9 @@ public class LineParser {
 
     // validate line format length range only
     private boolean validateLineFormat(String line) {
+        if(line.length()>66){
+            line = line.substring(0,66);
+        }
         while (line.length() < 66) {
             line += " ";
         }

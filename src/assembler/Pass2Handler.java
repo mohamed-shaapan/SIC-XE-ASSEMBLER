@@ -13,9 +13,11 @@ import obline.imp.TextRecord;
 import obline.interfaces.Obline;
 import statement.Directive;
 import statement.IStatement;
+import statement.Operation;
 import storage.IntermediateFileHandler;
 import storage.ListingFileHandler;
 import storage.ObjectCodeHandler;
+import tools.Checker;
 
 public class Pass2Handler {
 
@@ -76,8 +78,10 @@ public class Pass2Handler {
                         endOperand = intermediateFileContent.get(0).get(3);
                     }
                 }
+
             } else {
                 objectCode = generateInstructionObjectCode(this.intermediateFileContent.get(ind - 1));
+
             }
             /***********************
              * Object Line Generations
@@ -129,11 +133,11 @@ public class Pass2Handler {
         /***************************
          * Adding Start and End Record
          *****************************/
-        obLines.add(0,
-                new HeaderRecord(intermediateFileContent.get(0).get(1), intermediateFileContent.get(0).get(0),
-                        convertFromHexaToDeca(intermediateFileContent.get(intermediateFileContent.size() - 2).get(0))
-                                - convertFromHexaToDeca(intermediateFileContent.get(0).get(0)) + 1));
-        obLines.add(new EndRecord(endOperand));
+        int first = Integer.parseInt(intermediateFileContent.get(0).get(0), 16);
+        int last = Integer.parseInt(intermediateFileContent.get(intermediateFileContent.size() - 2).get(0), 16);
+        obLines.add(0, new HeaderRecord(intermediateFileContent.get(0).get(1), intermediateFileContent.get(0).get(0),
+                last - first + 1));
+        obLines.add(new EndRecord(intermediateFileContent.get(0).get(0)));
         /*****************************************/
         // while (ind < intermediateFile.size()) {
         // this.listingFile.add(intermediateFile.get(ind++));
@@ -154,16 +158,25 @@ public class Pass2Handler {
         }
         operandAddress = this.symbolTable.get(instructionContent.get(3).substring(0, indOfColon).trim());
         // check max length of operand
-        if (convertFromHexaToDeca(operandAddress) > Math.pow(2, 15)) {
+        if (Checker.convertFromHexaToDeca(operandAddress) > Math.pow(2, 15)) {
             error = true;
             this.listingFile.add("==> Exceeding max limit for operand in 15 bits");
             return new String("");
         }
         if (operandAddress == null && statement.getNumberOfOperands() != 0) {
-            operandAddress = instructionContent.get(3).trim();
-            while (operandAddress.length() < 6)
-                operandAddress = "0" + operandAddress;
+            if (Checker.checkHexaAddress(instructionContent.get(3).trim())) {
+                String address = instructionContent.get(3).trim();
+                operandAddress = address.substring(3, address.length() - 1);
+            } else if (Checker.checkStar(instructionContent.get(3).trim())) {
+                operandAddress = instructionContent.get(0).trim();
+            } else {
+                error = true;
+                this.listingFile.add("==> illegal Operand not existing in symtab");
+                return new String("");
+            }
         }
+        while (operandAddress != null && operandAddress.length() < 6)
+            operandAddress = "0" + operandAddress;
         if (statement.getNumberOfOperands() == 0) {
             operandAddress = "000000";
         }
@@ -182,14 +195,12 @@ public class Pass2Handler {
                 result = getHexaFromChars(data.substring(2, data.length() - 1));
             }
         } else if (directiveContent.get(2).equalsIgnoreCase("WORD")) {
-            result = getHexaFromDecimal(directiveContent.get(3));
+            result = Checker.getHexaFromDecimal(directiveContent.get(3));
         }
         return result;
     }
 
     private char concatenate(int x, char hexaDigit) {
-        // if(hexaDigit == 'f' && x ==1) can not ocuur as address ae 15 bits not
-        // 16 bits [x 3bit hex3 hex2 hex1]
         return (char) ((int) hexaDigit + (x * 8));
     }
 
@@ -198,29 +209,7 @@ public class Pass2Handler {
         for (int i = stringValue.length() - 1; i >= 0; i--) {
             value = Integer.toHexString(((int) stringValue.charAt(i))) + value;
         }
-        // while(value.length()<6){
-        // value = "0" + value.substring(0);
-        // }
         return value;
-    }
-
-    // handling if one hexa wrong in phase1 ,, no limit on word
-    private String getHexaFromDecimal(String decimalValue) {
-        String value = Integer.toHexString(Integer.parseInt(decimalValue));
-        while (value.length() < 6) {
-            value = "0" + value.substring(0);
-        }
-        return value;
-    }
-
-    private int convertFromHexaToDeca(String Hexa) {
-        if (Hexa == null)
-            return 0;
-        int num = 0;
-        for (int i = Hexa.length() - 1; i >= 0; i--) {
-            num += (Hexa.charAt(i) - '0') * Math.pow(16, Hexa.length() - 1 - i);
-        }
-        return num;
     }
 
 }
