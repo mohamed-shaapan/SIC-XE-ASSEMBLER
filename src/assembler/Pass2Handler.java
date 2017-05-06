@@ -13,7 +13,6 @@ import obline.imp.TextRecord;
 import obline.interfaces.Obline;
 import statement.Directive;
 import statement.IStatement;
-import statement.Operation;
 import storage.IntermediateFileHandler;
 import storage.ListingFileHandler;
 import storage.ObjectCodeHandler;
@@ -134,9 +133,9 @@ public class Pass2Handler {
          * Adding Start and End Record
          *****************************/
         int first = Integer.parseInt(intermediateFileContent.get(0).get(0), 16);
-        int last = Integer.parseInt(intermediateFileContent.get(intermediateFileContent.size() - 2).get(0), 16);
+        int last = Integer.parseInt(intermediateFileContent.get(intermediateFileContent.size() - 1).get(0), 16);
         obLines.add(0, new HeaderRecord(intermediateFileContent.get(0).get(1), intermediateFileContent.get(0).get(0),
-                last - first + 1));
+                last - first));
         obLines.add(new EndRecord(intermediateFileContent.get(0).get(0)));
         /*****************************************/
         // while (ind < intermediateFile.size()) {
