@@ -2,7 +2,6 @@ package validators;
 
 import exception.StatementException;
 import statement.IStatement;
-import statement.Operation;
 
 public class LabelValidator implements IValidator{
 

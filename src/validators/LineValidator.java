@@ -1,10 +1,7 @@
 package validators;
 
-import java.util.Map;
-
 import exception.StatementException;
 import statement.IStatement;
-import statement.Operation;
 
 public class LineValidator {
 	private IValidator labelValidator,operationValidator,operandValidator,commentValidator;

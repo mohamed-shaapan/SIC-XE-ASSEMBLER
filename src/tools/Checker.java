@@ -1,7 +1,5 @@
 package tools;
 
-import java.io.StreamTokenizer;
-
 public class Checker {
 	
 	public static boolean checkName(String content) {
