@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 001000    COPY     START   1000               
 001000    FIRST    STL     RETADR
 001003    CLOOP    JSUB    RDREC
@@ -87,3 +88,94 @@ s y m b o l  t a b l e
 | THREE  | 00102d | 
 +--------+--------+
 
+=======
+001000    COPY     START   1000               
+001000    FIRST    STL     RETADR
+001003    CLOOP    JSUB    RDREC
+001006             LDA     LENGTH
+001009             COMP    ZERO
+00100c             JEQ     ENDFIL
+00100f             JSUB    WRREC
+001012             J       CLOOP
+001015    ENDFIL   LDA     EOF
+001018             STA     BUFFER
+00101b             LDA     THREE
+00101e             STA     LENGTH
+001021             JSUB    WRREC
+001024             LDL     RETADR
+001027             RSUB
+00102a    EOF      BYTE    C'EOF'
+00102d    THREE    WORD    3
+001030    ZERO     WORD    0
+001033    RETADR   RESW    1
+001036    LENGTH   RESW    1
+001039    BUFFER   RESB    4096
+002039    RDREC    LDX     ZERO
+00203c             LDA     ZERO
+00203f    RLOOP    TD      INPUT
+002042             JEQ     RLOOP
+002045             RD      INPUT
+002048             COMP    ZERO
+00204b             JEQ     EXIT
+00204e             STCH    BUFFER,X
+002051             TIX     MAXLEN
+002054             JLT     RLOOP
+002057    EXIT     STX     LENGTH
+00205a             RSUB
+00205d    INPUT    BYTE    X'F1'
+00205e    MAXLEN   WORD    4096
+002061    WRREC    LDX     ZERO
+002064    WLOOP    TD      OUTPUT
+002067             JEQ     WLOOP
+00206a             LDCH    BUFFER,X
+00206d             WD      OUTPUT
+002070             TIX     LENGTH
+002073             JLT     WLOOP
+002076             RSUB
+002079    OUTPUT   BYTE    X'05'
+00207a             END     FIRST
+
+
+
+s y m b o l  t a b l e 
++--------+--------+
+| name   | value  | 
++--------+--------+
+| ZERO   | 001030 | 
++--------+--------+
+| INPUT  | 00205d | 
++--------+--------+
+| WRREC  | 002061 | 
++--------+--------+
+| OUTPUT | 002079 | 
++--------+--------+
+| ENDFIL | 001015 | 
++--------+--------+
+| LENGTH | 001036 | 
++--------+--------+
+| COPY   | 001000 | 
++--------+--------+
+| FIRST  | 001000 | 
++--------+--------+
+| RETADR | 001033 | 
++--------+--------+
+| BUFFER | 001039 | 
++--------+--------+
+| RLOOP  | 00203f | 
++--------+--------+
+| MAXLEN | 00205e | 
++--------+--------+
+| CLOOP  | 001003 | 
++--------+--------+
+| WLOOP  | 002064 | 
++--------+--------+
+| EOF    | 00102a | 
++--------+--------+
+| RDREC  | 002039 | 
++--------+--------+
+| EXIT   | 002057 | 
++--------+--------+
+| THREE  | 00102d | 
++--------+--------+
+
+>>>>>>> refs/remotes/origin/master
