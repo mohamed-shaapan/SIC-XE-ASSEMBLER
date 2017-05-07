@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import data.Data;
+import exception.StatementException;
 import obline.imp.EndRecord;
 import obline.imp.HeaderRecord;
 import obline.imp.TextRecord;
@@ -25,7 +26,8 @@ public class Pass2Handler {
 	private List<String> intermediateFile, listingFile;
 	private boolean error;
 
-	public Pass2Handler(String intermediateFileAddress, String listingFileAddress, String objectFileAddress) {
+	public Pass2Handler(String intermediateFileAddress, String listingFileAddress, String objectFileAddress)
+			throws StatementException {
 		intermediateFile = new ArrayList<String>();
 		listingFile = new ArrayList<String>();
 		intermediateFileContent = new ArrayList<ArrayList<String>>();
@@ -42,6 +44,9 @@ public class Pass2Handler {
 		ListingFileHandler.storeFile(listingFile, listingFileAddress);
 		if (!error) {
 			ObjectCodeHandler.WriteFile(obLines, objectFileAddress);
+			System.out.println("Successfully path2 completed");
+		} else {
+			throw new StatementException("src File is not valid so listing file contains error messeges");
 		}
 	}
 
@@ -70,8 +75,8 @@ public class Pass2Handler {
 					if (endOperand == null) {
 						endOperand = intermediateFileContent.get(0).get(3);
 					}
-					endOperand = endOperand.replaceAll("0X","");
-					endOperand = endOperand.replaceAll("\'","");
+					endOperand = endOperand.replaceAll("0X", "");
+					endOperand = endOperand.replaceAll("\'", "");
 				}
 			} else {
 				objectCode = generateInstructionObjectCode(this.intermediateFileContent.get(ind - 1));
@@ -123,10 +128,10 @@ public class Pass2Handler {
 		/***************************
 		 * Adding Start and End Record
 		 *****************************/
-        int first = Integer.parseInt(intermediateFileContent.get(0).get(0), 16);
-        int last = Integer.parseInt(intermediateFileContent.get(intermediateFileContent.size() - 1).get(0), 16);
+		int first = Integer.parseInt(intermediateFileContent.get(0).get(0), 16);
+		int last = Integer.parseInt(intermediateFileContent.get(intermediateFileContent.size() - 1).get(0), 16);
 		obLines.add(0, new HeaderRecord(intermediateFileContent.get(0).get(1), intermediateFileContent.get(0).get(0),
-				last-first));
+				last - first));
 		obLines.add(new EndRecord(endOperand));
 		/*****************************************/
 	}

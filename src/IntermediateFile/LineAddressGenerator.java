@@ -21,6 +21,7 @@ public class LineAddressGenerator {
 		intermediateContent = new ArrayList<String>();
 		currentLineAddress = Checker.convertFromHexaToDeca(new String("000000"));
 		nextLineAddress = currentLineAddress;
+		error = false;
 	}
 
 	public void setInitialAddress(String startOperand) {
