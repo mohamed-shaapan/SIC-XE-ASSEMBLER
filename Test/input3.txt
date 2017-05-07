@@ -1,24 +1,24 @@
-COPY     StArT   0X'1000'               
-FIRST    STL     RETADR
-CLOOP    JSUB    RDREC
-         LDA     LENGTH
-         COMP    ZERO
-         JEQ	 ENDFIL
-         JSUB    WRREC
-         J       CLOOP
-ENDFIL   LDA     EOF
-         STA     BUFFER
-         LDA     THREE
-         STA     LENGTH
-         JSUB    WRREC
-         LDL     RETADR
-         RSUB
-EOF      BYTE    C'EOF'
+COPY     START   0X'1000'               
 THREE    WORD    3
 ZERO     WORD    0
 RETADR   RESW    1
 LENGTH   RESW    1
 BUFFER   RESW    4096
+FIRST    STL     RETADR
+CLOOP    JSUB    RDREC
+         LDA     LENGTH
+         COMP    ZERO
+         JEQ	 ENDFIL
+    	 JSUB    WRREC
+    	 J       CLOOP
+ENDFIL   LDA     EOF
+    	 STA     BUFFER
+    	 LDA     THREE
+    	 STA     LENGTH
+    	 JSUB    WRREC
+         LDL     RETADR
+         RSUB
+EOF      BYTE    C'EOF'
 RDREC    LDX     ZERO
          LDA     ZERO
 RLOOP    TD      INPUT
@@ -30,6 +30,7 @@ RLOOP    TD      INPUT
     	 TIX     MAXLEN
     	 JLT     RLOOP
 EXIT     STX     LENGTH
+	     RSUB
 INPUT    BYTE    X'F1'
 MAXLEN   WORD    4096
 WRREC    LDX     ZERO

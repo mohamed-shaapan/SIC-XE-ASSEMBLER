@@ -1,0 +1,89 @@
+001000    COPY     START   0X'1000'               
+001000    THREE    WORD    3
+001003    ZERO     WORD    0
+001006    RETADR   RESW    1
+001009    LENGTH   RESW    1
+00100c    BUFFER   RESW    4096
+00400c    FIRST    STL     RETADR
+00400f    CLOOP    JSUB    RDREC
+004012             LDA     LENGTH
+004015             COMP    ZERO
+004018             JEQ     ENDFIL
+00401b             JSUB    WRREC
+00401e             J       CLOOP
+004021    ENDFIL   LDA     EOF
+004024             STA     BUFFER
+004027             LDA     THREE
+00402a             STA     LENGTH
+00402d             JSUB    WRREC
+004030             LDL     RETADR
+004033             RSUB
+004036    EOF      BYTE    C'EOF'
+004039    RDREC    LDX     ZERO
+00403c             LDA     ZERO
+00403f    RLOOP    TD      INPUT
+004042             JEQ     RLOOP
+004045             RD      INPUT
+004048             COMP    ZERO
+00404b             JEQ     EXIT
+00404e             STCH    BUFFER,X
+004051             TIX     MAXLEN
+004054             JLT     RLOOP
+004057    EXIT     STX     LENGTH
+00405a             RSUB
+00405d    INPUT    BYTE    X'F1'
+00405e    MAXLEN   WORD    4096
+004061    WRREC    LDX     ZERO
+004064    WLOOP    TD      OUTPUT
+004067             JEQ     WLOOP
+00406a             LDCH    BUFFER,X
+00406d             WD      OUTPUT
+004070             TIX     LENGTH
+004073             JLT     WLOOP
+004076             RSUB
+004079    OUTPUT   BYTE    X'05'         
+00407a             END     FIRST
+
+
+
+s y m b o l  t a b l e 
++--------+--------+
+| name   | value  | 
++--------+--------+
+| ZERO   | 001003 | 
++--------+--------+
+| INPUT  | 00405d | 
++--------+--------+
+| WRREC  | 004061 | 
++--------+--------+
+| OUTPUT | 004079 | 
++--------+--------+
+| LENGTH | 001009 | 
++--------+--------+
+| ENDFIL | 004021 | 
++--------+--------+
+| COPY   | 001000 | 
++--------+--------+
+| FIRST  | 00400c | 
++--------+--------+
+| RETADR | 001006 | 
++--------+--------+
+| BUFFER | 00100c | 
++--------+--------+
+| RLOOP  | 00403f | 
++--------+--------+
+| MAXLEN | 00405e | 
++--------+--------+
+| CLOOP  | 00400f | 
++--------+--------+
+| WLOOP  | 004064 | 
++--------+--------+
+| EOF    | 004036 | 
++--------+--------+
+| RDREC  | 004039 | 
++--------+--------+
+| EXIT   | 004057 | 
++--------+--------+
+| THREE  | 001000 | 
++--------+--------+
+

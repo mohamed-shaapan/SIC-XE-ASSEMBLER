@@ -4,7 +4,7 @@ prog     start   0X'0100'
 .                                                                 
 bgn      lda     *
          and     *
-ldd      td      alpha
+lda      td      lda
          comp    *                                               
 alpha    word    10
 beta     word    24                                               
