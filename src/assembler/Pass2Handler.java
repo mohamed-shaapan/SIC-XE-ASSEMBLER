@@ -70,6 +70,8 @@ public class Pass2Handler {
 					if (endOperand == null) {
 						endOperand = intermediateFileContent.get(0).get(3);
 					}
+					endOperand = endOperand.replaceAll("0X","");
+					endOperand = endOperand.replaceAll("\'","");
 				}
 			} else {
 				objectCode = generateInstructionObjectCode(this.intermediateFileContent.get(ind - 1));
