@@ -1,15 +1,15 @@
 package statement;
 
-public class Directive implements IStatement{
+public class Directive implements IStatement {
 	private String dirName;
-	private int numberOfOperands,label;
-	
-	public Directive(String opName,int numberOfoperands , int label){
-		this.dirName=opName;
-		this.numberOfOperands=numberOfoperands;
+	private int numberOfOperands, label;
+
+	public Directive(String opName, int numberOfoperands, int label) {
+		this.dirName = opName;
+		this.numberOfOperands = numberOfoperands;
 		this.label = label;
 	}
-	
+
 	@Override
 	public String getOpName() {
 		return dirName;
@@ -19,13 +19,12 @@ public class Directive implements IStatement{
 	public int getNumberOfOperands() {
 		return numberOfOperands;
 	}
-	
 
 	@Override
 	public String getOpCode() {
 		return null;
 	}
-	
+
 	@Override
 	public int hasLabel() {
 		return label;

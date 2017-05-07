@@ -4,18 +4,18 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class Printer {
-			
-	public static void printTable(ArrayList<ArrayList<String>> data, String tableName ,PrintWriter printWriter) {
+
+	public static void printTable(ArrayList<ArrayList<String>> data, String tableName, PrintWriter printWriter) {
 		if (tableName == null)
 			return;
 		printWriter.println(tableName);
 		ArrayList<Integer> width = findMaxWidth(data);
 		for (int i = 0; i < data.size(); i++) {
-			printLine(width,printWriter);
+			printLine(width, printWriter);
 			printWriter.print("| ");
-			printRow(width, data.get(i), data.get(0).size(),printWriter);
+			printRow(width, data.get(i), data.get(0).size(), printWriter);
 		}
-		printLine(width,printWriter);
+		printLine(width, printWriter);
 		printWriter.println();
 	}
 
@@ -45,7 +45,8 @@ public class Printer {
 		printWriter.println();
 	}
 
-	private static void printRow(ArrayList<Integer> width, ArrayList<String> row, int columnNumber, PrintWriter printWriter) {
+	private static void printRow(ArrayList<Integer> width, ArrayList<String> row, int columnNumber,
+			PrintWriter printWriter) {
 		for (int i = 0; i < columnNumber; i++) {
 			if (i < row.size()) {
 				printWriter.print(row.get(i));

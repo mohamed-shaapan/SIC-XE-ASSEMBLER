@@ -11,7 +11,7 @@ import statement.IStatement;
 import statement.Operation;
 
 public class FileHandler {
-	
+
 	public static Map<String, IStatement> readFiles(String operationsFileDirectory, String directivesFileDirectory) {
 		Map<String, IStatement> hashTable = new HashMap<String, IStatement>();
 		try {
@@ -36,7 +36,7 @@ public class FileHandler {
 				String name = tmp[0];
 				int numberOfOperands = Integer.valueOf(tmp[1]);
 				int label = Integer.valueOf(tmp[2]);
-				IStatement directive = new Directive(name, numberOfOperands,label);
+				IStatement directive = new Directive(name, numberOfOperands, label);
 				hashTable.put(directive.getOpName(), directive);
 			}
 			bufferedReader.close();

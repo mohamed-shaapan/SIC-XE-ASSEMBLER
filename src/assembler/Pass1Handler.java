@@ -45,7 +45,7 @@ public class Pass1Handler {
 		Boolean firstStatement = true, endStatement = false;
 		try {
 			String[] srcFile = SrcFileHandler.readSrcFile(this.srcFileDirectory);
-			int ind =0;
+			int ind = 0;
 			for (String statement : srcFile) {
 				statement = statement.replaceAll("\\t", "    ");
 				srcFile[ind++] = statement;
@@ -57,8 +57,6 @@ public class Pass1Handler {
 				if (data == null) {
 					lineAddressGenerator.appendError(statement, "Invalid Instruction Format");
 				} else {
-					// System.out.println(data[1]);
-					// System.out.println(statementTable.get(data[1]));
 					try {
 						lineValidator.validateLine(data, statementTable.get(data[1].toLowerCase()));
 						if (symbolTable.get(data[0]) != null)
@@ -66,7 +64,7 @@ public class Pass1Handler {
 						// handling no start or no end or invalid position for
 						// them
 						if (data[1].equalsIgnoreCase("END")) {
-							if (endStatement){
+							if (endStatement) {
 								lineAddressGenerator.appendError(statement, "Duplicate END");
 								continue;
 							}
@@ -96,7 +94,7 @@ public class Pass1Handler {
 						}
 						String address = lineAddressGenerator.appendStatement(statement, data,
 								statementTable.get(data[1].toLowerCase()));
-						if (data[0].replaceAll(" ", "").length() != 0) { 
+						if (data[0].replaceAll(" ", "").length() != 0) {
 							symbolTable.put(data[0], address);
 						}
 					} catch (StatementException e) {

@@ -1,13 +1,12 @@
 package exception;
 
 public class StatementException extends Exception {
-	
-    public StatementException() {
+
+	public StatementException() {
 		// TODO Auto-generated constructor stub
 	}
 
-    public StatementException(String message)
-    {
-       super(message);
-    }
+	public StatementException(String message) {
+		super(message);
+	}
 }

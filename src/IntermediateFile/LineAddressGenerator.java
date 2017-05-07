@@ -12,15 +12,11 @@ import tools.Checker;
 
 public class LineAddressGenerator {
 
-	// 01_ATTRIBUTES
-	// *******************************************************
 	private List<String> intermediateContent;
 	private int currentLineAddress, nextLineAddress;
 	public static boolean error;
+	
 
-	// 02_CONSTRUCTOR
-	// *******************************************************
-	// we call it on first statement (start)
 	public LineAddressGenerator() {
 		intermediateContent = new ArrayList<String>();
 		currentLineAddress = Checker.convertFromHexaToDeca(new String("000000"));
@@ -28,27 +24,25 @@ public class LineAddressGenerator {
 	}
 
 	public void setInitialAddress(String startOperand) {
-		currentLineAddress = Checker.convertFromHexaToDeca(startOperand.substring(3,startOperand.length()-1));
+		currentLineAddress = Checker.convertFromHexaToDeca(startOperand.substring(3, startOperand.length() - 1));
 		nextLineAddress = currentLineAddress;
 	}
 
-	// 03_METHODS
-	// *******************************************************
-	public String appendStatement(String originalStatement, String statementContent[], IStatement statement) throws StatementException {
+	public String appendStatement(String originalStatement, String statementContent[], IStatement statement)
+			throws StatementException {
 		if (statement instanceof Operation) {
 			nextLineAddress = calculateNextLineAddress();
 		} else {
 			nextLineAddress = calculateNextLineAddress(statementContent);
 		}
 		// 02_generate current line for intermediate file
-		if(currentLineAddress >= Math.pow(2, 15)){
+		if (currentLineAddress >= Math.pow(2, 15) || nextLineAddress >= Math.pow(2, 15)) {
 			nextLineAddress = currentLineAddress;
 			throw new StatementException("Out of Memory Range");
 		}
 		String address = Checker.getHexaFromDecimal(String.valueOf(currentLineAddress));
 		String line = address + "    " + originalStatement;
 		intermediateContent.add(line);
-		// System.out.println(line);
 		currentLineAddress = nextLineAddress;
 		return address;
 	}
@@ -76,7 +70,6 @@ public class LineAddressGenerator {
 		} else if (currentStatement[1].equalsIgnoreCase("WORD")) {
 			nextLineAddress += 3;
 		} else if (currentStatement[1].equalsIgnoreCase("BYTE")) {
-			// nextLineAddress += // calculate total size of operand
 			String chaPattern = "(C*?)(')(.+)(')";
 			Matcher queryMatcher = Pattern.compile(chaPattern).matcher(currentStatement[2]);
 			if (queryMatcher.matches()) {
