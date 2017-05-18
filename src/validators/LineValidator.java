@@ -21,4 +21,8 @@ public class LineValidator {
 								// statement);
 		return cond1 && cond2 && cond3 && cond4;
 	}
+	
+	public Operand getOperandType(){
+		return operandValidator.getType();
+	}
 }

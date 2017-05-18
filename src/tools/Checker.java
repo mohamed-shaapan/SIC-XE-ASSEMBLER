@@ -63,6 +63,12 @@ public class Checker {
 				flag = checkHexaNumber(content.substring(3, content.length() - 1));
 		return flag;
 	}
+	
+	//***********************************************
+	public static boolean checkLiteral(String content){
+		
+		return false;
+	}
 
 	public static boolean inBetween(String content, int index, char start, char end) {
 		return content.isEmpty() || (content.charAt(index) >= start && content.charAt(index) <= end);
@@ -95,4 +101,6 @@ public class Checker {
 		}
 		return num;
 	}
+	
+	
 }

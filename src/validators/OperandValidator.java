@@ -19,6 +19,11 @@ import tools.Checker;
 
 public class OperandValidator implements IValidator {
 
+	
+	
+	private Operand type;
+	
+	
 	public OperandValidator() {
 
 	}
@@ -103,8 +108,14 @@ public class OperandValidator implements IValidator {
 	}
 
 	private boolean format3(String content, IStatement operation) throws StatementException {
-		if (generalChecker(content, operation))
+		if (generalChecker(content, operation)){
+			type = new Label();
 			return true;
+		}
+		if(Checker.checkLiteral(content)==true){
+			type = new Literal();
+			return true;
+		}
 		throw new StatementException("Invalid Operation Operand");
 	}
 
@@ -113,5 +124,10 @@ public class OperandValidator implements IValidator {
 			return (content.trim().isEmpty());
 		return (Checker.checkName(content) || Checker.checkHexaAddress(content) || Checker.checkStar(content));
 	}
+	
+	public Operand getOperandType(){
+		return type;
+	}
+	
 
 }

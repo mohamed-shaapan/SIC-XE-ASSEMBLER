@@ -26,7 +26,7 @@ public class Main {
 				loc[4] = loc[2].substring(0, loc[2].length() - 4) + "listing.txt";
 				loc[5] = loc[2].substring(0, loc[2].length() - 4) + "object.txt";
 				Pass1Handler obj1 = new Pass1Handler(loc[0], loc[1], loc[2], loc[3]);
-				boolean pass1Error = obj1.ConstructSymTable();
+				boolean pass1Error = obj1.runPass1();
 				if (!pass1Error) {
 					System.out.println("Successfully path1 completed");
 					Pass2Handler obj2 = new Pass2Handler(loc[3], loc[4], loc[5]);
