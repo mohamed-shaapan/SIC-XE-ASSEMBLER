@@ -1,5 +1,8 @@
 package validators;
 
+import elements.Label;
+import elements.Literal;
+import elements.Operand;
 import exception.StatementException;
 import statement.IStatement;
 import statement.Operation;
@@ -98,14 +101,14 @@ public class OperandValidator implements IValidator {
 			throw new StatementException(error);
 	}
 
-	private boolean checkChar(String content) {
+	/*private boolean checkChar(String content) {
 		for (int i = 0; i < content.length(); i++) {
 			if (Checker.inBetween(content, i, 'a', 'z') || Checker.inBetween(content, i, 'A', 'Z'))
 				continue;
 			return false;
 		}
 		return true;
-	}
+	}*/
 
 	private boolean format3(String content, IStatement operation) throws StatementException {
 		if (generalChecker(content, operation)){

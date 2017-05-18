@@ -78,6 +78,12 @@ public class Pass1Handler {
 								lineAddressGenerator.appendError(statement, "Duplicate END");
 								continue;
 							}
+							for(String literal:literalOrder){
+								Literal literalObject=literalTable.get(literal);
+								String litAddress=lineAddressGenerator.appendStatement(literalObject.generateStatement(), literalObject.getLength());
+								literalObject.setAddress(litAddress);
+							}
+							literalOrder.clear();
 							endStatement = true;
 						}
 						if (firstStatement) {
@@ -102,7 +108,8 @@ public class Pass1Handler {
 							lineAddressGenerator.appendError(statement, "Missing END Statement");
 							continue;
 						}
-						
+						String address = lineAddressGenerator.appendStatement(statement, data,
+								statementTable.get(data[1].toLowerCase()));
 						//check if this line has label
 						if (data[0].replaceAll(" ", "").length() != 0) {
 							symbolTable.put(data[0], address);
@@ -117,14 +124,15 @@ public class Pass1Handler {
 							literalLOCCTR+=tmp.getLength();
 						}
 						//
-						String address = lineAddressGenerator.appendStatement(statement, data,
-								statementTable.get(data[1].toLowerCase()));
+						
 						//LTORG statement in source program
 						if(data[1].equalsIgnoreCase("LTORG")){
 							for(String literal:literalOrder){
 								Literal literalObject=literalTable.get(literal);
-								String literalStatement=literalObject.getName()+
+								String litAddress=lineAddressGenerator.appendStatement(literalObject.generateStatement(), literalObject.getLength());
+								literalObject.setAddress(litAddress);
 							}
+							literalOrder.clear();
 						}
 					} catch (StatementException e) {
 						lineAddressGenerator.appendError(statement, e.getMessage());

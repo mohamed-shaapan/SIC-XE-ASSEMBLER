@@ -47,6 +47,19 @@ public class LineAddressGenerator {
 		currentLineAddress = nextLineAddress;
 		return address;
 	}
+	
+	public String appendStatement(String literalStatement, int literalLength) throws StatementException{
+		if (currentLineAddress >= Math.pow(2, 15) || nextLineAddress >= Math.pow(2, 15)) {
+			nextLineAddress = currentLineAddress;
+			throw new StatementException("Out of Memory Range");
+		}
+		String address = Checker.getHexaFromDecimal(String.valueOf(currentLineAddress));
+		String line = address + "    " + literalStatement;
+		intermediateContent.add(line);
+		nextLineAddress=currentLineAddress+literalLength;
+		currentLineAddress = nextLineAddress;
+		return address;
+	}
 
 	public void appendError(String originalStatement, String errorMessege) {
 		error = true;

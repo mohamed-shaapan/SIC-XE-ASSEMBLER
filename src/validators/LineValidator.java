@@ -1,5 +1,6 @@
 package validators;
 
+import elements.Operand;
 import exception.StatementException;
 import statement.IStatement;
 

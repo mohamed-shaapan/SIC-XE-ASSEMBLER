@@ -1,6 +1,6 @@
 package elements;
 
-public class Literal {
+public class Literal implements Operand{
 
 	//01_ATTRIBUTES
 	//**************************************
@@ -12,6 +12,10 @@ public class Literal {
 	
 	//02_CONSTRUCTOR
 	//**************************************
+	public Literal(){
+		
+	}
+	
 	public Literal(String name, String value, String address, int length){
 		this.name=name;
 		this.value=value;
@@ -41,14 +45,30 @@ public class Literal {
 		return address;
 	}
 
+
 	public int getLength() {
 		return length;
 	}
 	
 	public String generateStatement(){
 		String statement=name;
-		while(statement.length()!=)
+		//label
+		while(statement.length()<8){
+			statement+=" ";
+		}
+		//operation
+		statement+=" *";
+		while(statement.length()<15){
+			statement+=" ";
+		}
+		//operand
+		statement+=value;
+		//return
 		return statement;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	
