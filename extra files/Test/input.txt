@@ -1,8 +1,0 @@
-.2345678901234567890                                              
-prog     start   0100                                             
-         lda     ba            
-ba       add     bc             
-.       	 add     #20              
-.         sta     result 
-bc       sta     bc           
-bcdadasa sta     bc

@@ -11,7 +11,7 @@ import statement.IStatement;
 import statement.Operation;
 
 public class FileHandler {
-	
+
 	public static Map<String, IStatement> readFiles(String operationsFileDirectory, String directivesFileDirectory) {
 		Map<String, IStatement> hashTable = new HashMap<String, IStatement>();
 		try {
@@ -24,10 +24,8 @@ public class FileHandler {
 				int numberOfOperands = Integer.valueOf(tmp[2]);
 				IStatement operation = new Operation(name, opCode, numberOfOperands);
 				hashTable.put(operation.getOpName(), operation);
-				//operation.print();
 			}
 			bufferedReader.close();
-			//readDirectivesFile(directivesFileDirectory,hashTable);		
 		} catch (Exception e) {
 		}
 		try {
@@ -38,7 +36,7 @@ public class FileHandler {
 				String name = tmp[0];
 				int numberOfOperands = Integer.valueOf(tmp[1]);
 				int label = Integer.valueOf(tmp[2]);
-				IStatement directive = new Directive(name, numberOfOperands,label);
+				IStatement directive = new Directive(name, numberOfOperands, label);
 				hashTable.put(directive.getOpName(), directive);
 			}
 			bufferedReader.close();
@@ -46,20 +44,4 @@ public class FileHandler {
 		}
 		return hashTable;
 	}
-	
-//	public static void readDirectivesFile(String directivesFileDirectory , Map<String,IStatement> mapy) {
-//		try {
-//			BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(directivesFileDirectory)));
-//			while (bufferedReader.ready()) {
-//				String line = bufferedReader.readLine();
-//				String tmp[] = line.split(new String(" "));
-//				String name = tmp[0];
-//				int numberOfOperands = Integer.valueOf(tmp[1]);
-//				IStatement directive = new Directive(name, numberOfOperands);
-//				mapy.put(directive.getOpName(), directive);
-//			}
-//			bufferedReader.close();
-//		} catch (Exception e) {
-//		}
-//	}
 }

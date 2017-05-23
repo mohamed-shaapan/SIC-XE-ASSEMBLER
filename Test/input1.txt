@@ -1,0 +1,12 @@
+.2345678901234567890                                                                                        
+prog     start   0X'0100'                                             
+.                                                                 
+.                                                                 
+bgn      lda     *
+         and     *
+lda      td      lda
+         comp    *                                               
+alpha    word    10
+beta     word    24                                               
+result   resb    10
+         end     

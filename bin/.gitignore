@@ -1,3 +1,6 @@
-/data/
-/obline/
 /assembler/
+/elements/
+/main/
+/validators/
+/tools/
+/IntermediateFile/
