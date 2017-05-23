@@ -98,9 +98,9 @@ public class Pass2Handler {
              *****************************/
             if (objectCode.equals("")) {
                 if (notTextRecordEnder(this.intermediateFileContent.get(ind - 1).get(2))) {
-                    continue;
+               
                 }
-                if (len != 0) {
+                else if(len != 0) {
                     obLines.add(new TextRecord(StartingAddress, len, content.toString()));
                     content = new StringBuilder();
                     len = 0;

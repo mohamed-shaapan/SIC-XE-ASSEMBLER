@@ -1,12 +1,10 @@
 package validators;
 
-import data.Data;
 import elements.EquateHandler;
 import elements.Label;
 import elements.Literal;
 import elements.Operand;
 import exception.StatementException;
-import javafx.scene.media.EqualizerBand;
 import statement.IStatement;
 import statement.Operation;
 import tools.Checker;
@@ -45,6 +43,7 @@ public class OperandValidator implements IValidator {
     private boolean checkDirective(String content, IStatement directive) throws StatementException {
         String error = "";
         boolean flag = false;
+        type = new Label();
         // limits for X'max 14 hexa digits' || C'max 15 char'
         if (directive.getOpName().equalsIgnoreCase("BYTE")) {
             if (Checker.checkStringData(content) || Checker.checkHexaData(content)) {

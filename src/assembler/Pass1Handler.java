@@ -43,6 +43,7 @@ public class Pass1Handler {
         literalTable = new HashMap<String, Literal>();
         literalOrder = new ArrayList<String>();
         literalLOCCTR = 0;
+        Data.symbolTable = this.symbolTable;
 
     }
 

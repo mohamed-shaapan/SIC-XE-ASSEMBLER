@@ -102,7 +102,14 @@ public class Checker {
 			return 0;
 		int num = 0;
 		for (int i = Hexa.length() - 1; i >= 0; i--) {
-			num += (Hexa.charAt(i) - '0') * Math.pow(16, Hexa.length() - 1 - i);
+			int val = 0;
+			if(inBetween(Hexa, i, 'a', 'f')){
+				val = (Hexa.charAt(i) - 'a')+10;
+			}
+			else{
+				val = (Hexa.charAt(i) - '0');
+			}
+			num += val * Math.pow(16, Hexa.length() - 1 - i);
 		}
 		return num;
 	}

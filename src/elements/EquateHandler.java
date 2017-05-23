@@ -31,10 +31,10 @@ public class EquateHandler {
 	private static String[] getSeparatingOperands(String content){
 		String operands[];
 		if(content.contains("+")){ 
-			operands = content.split("+");
+			operands = content.split("\\+");
 		}
         else if(content.contains("-")){ 
-			operands = content.split("-");
+			operands = content.split("\\-");
 		}
         else{
         	operands = new String[1];
