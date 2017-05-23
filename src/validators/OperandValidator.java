@@ -1,10 +1,12 @@
 package validators;
 
 import data.Data;
+import elements.EquateHandler;
 import elements.Label;
 import elements.Literal;
 import elements.Operand;
 import exception.StatementException;
+import javafx.scene.media.EqualizerBand;
 import statement.IStatement;
 import statement.Operation;
 import tools.Checker;
@@ -79,10 +81,7 @@ public class OperandValidator implements IValidator {
         }
         // EQUate
         if (directive.getOpName().equalsIgnoreCase("EQU")) {
-            flag = !content.trim().isEmpty() && generalChecker(content.trim(), directive);
-            if (Checker.checkName(content.trim())) {
-                flag = flag && Data.symbolTable.get(content.trim()) != null;
-            }
+        	flag = EquateHandler.validateEquateOperands(content);
         }
         if (flag)
             return true;

@@ -37,9 +37,9 @@ public class Pass2Handler {
         literalTable = new HashMap<String, Literal>();
         obLines = new ArrayList<>();
         error = false;
-        
+
         // 01_load file into memory
-        IntermediateFileHandler.loadFile(intermediateFileAddress, symbolTable,literalTable,intermediateFileContent,
+        IntermediateFileHandler.loadFile(intermediateFileAddress, symbolTable, literalTable, intermediateFileContent,
                 intermediateFile);
         // 02_generate listing file
         generateListingFile();
@@ -69,16 +69,16 @@ public class Pass2Handler {
             }
             // System.out.println(Arrays.toString(this.intermediateFileContent.get(ind
             // - 1).toArray()));
-            
-            IStatement currentStatement = Data.statementTable.get(intermediateFileContent.get(ind - 1).get(2).toLowerCase());
-            if(currentStatement==null){
-            	//new added statement in intermediate file to handle literals
-            	objectCode = literalTable.get(intermediateFileContent.get(ind - 1).get(3).trim()).getValue();
-            }
-            else{
-            	//correct statement form original src file
-            	
-            	if (currentStatement instanceof Directive) {
+
+            IStatement currentStatement = Data.statementTable
+                    .get(intermediateFileContent.get(ind - 1).get(2).toLowerCase());
+            if (currentStatement == null) {
+                // new added statement in intermediate file to handle literals
+                objectCode = literalTable.get(intermediateFileContent.get(ind - 1).get(3).trim()).getValue();
+            } else {
+                // correct statement form original src file
+
+                if (currentStatement instanceof Directive) {
                     objectCode = generateDirectiveObjectCode(intermediateFileContent.get(ind - 1));
                     if (currentStatement.getOpName().equalsIgnoreCase("END")) {
                         endOperand = Data.symbolTable.get(intermediateFileContent.get(ind - 1).get(3));
@@ -92,11 +92,14 @@ public class Pass2Handler {
                     objectCode = generateInstructionObjectCode(this.intermediateFileContent.get(ind - 1));
                 }
             }
-            
+
             /***********************
              * Object Line Generations
              *****************************/
             if (objectCode.equals("")) {
+                if (notTextRecordEnder(this.intermediateFileContent.get(ind - 1).get(2))) {
+                    continue;
+                }
                 if (len != 0) {
                     obLines.add(new TextRecord(StartingAddress, len, content.toString()));
                     content = new StringBuilder();
@@ -153,9 +156,9 @@ public class Pass2Handler {
         String opCode = Integer.toHexString(Integer.parseInt(statement.getOpCode()));
         if (opCode.length() < 2)
             opCode = "0" + opCode;
-        
+
         String operandAddress;
-        
+
         int indOfColon = instructionContent.get(3).indexOf(',');
         boolean indexing = true;
         if (indOfColon == -1) {
@@ -169,22 +172,23 @@ public class Pass2Handler {
                 operandAddress = address.substring(3, address.length() - 1);
             } else if (Checker.checkStar(instructionContent.get(3).trim())) {
                 operandAddress = instructionContent.get(0).trim();
-            } else if(Checker.checkLiteral(instructionContent.get(3).trim())){
-            	  operandAddress = (this.literalTable.get(instructionContent.get(3).substring(0, indOfColon).trim())).getAddress();
+            } else if (Checker.checkLiteral(instructionContent.get(3).trim())) {
+                operandAddress = (this.literalTable.get(instructionContent.get(3).substring(0, indOfColon).trim()))
+                        .getAddress();
             } else {
                 error = true;
                 this.listingFile.add("==> illegal Operand not existing in symtab nor literal Table");
                 return new String("");
             }
         }
-        
+
         // check max length of operand
         if (Checker.convertFromHexaToDeca(operandAddress) > Math.pow(2, 15)) {
             error = true;
             this.listingFile.add("==> Exceeding max limit for operand in 15 bits");
             return new String("");
         }
-        
+
         while (operandAddress != null && operandAddress.length() < 6)
             operandAddress = "0" + operandAddress;
         if (statement.getNumberOfOperands() == 0) {
@@ -212,6 +216,11 @@ public class Pass2Handler {
 
     private char concatenate(int x, char hexaDigit) {
         return (char) ((int) hexaDigit + (x * 8));
+    }
+
+    private boolean notTextRecordEnder(String symbol) {
+        return symbol.equalsIgnoreCase("EQU") || symbol.equalsIgnoreCase("ORG") || symbol.equalsIgnoreCase("LTORG")
+                || symbol.equalsIgnoreCase("END");
     }
 
 }

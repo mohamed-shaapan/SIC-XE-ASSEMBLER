@@ -6,7 +6,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import data.Data;
+import elements.EquateHandler;
 import exception.StatementException;
+import javafx.scene.media.EqualizerBand;
 import statement.IStatement;
 import statement.Operation;
 import tools.Checker;
@@ -48,7 +50,7 @@ public class LineAddressGenerator {
 		}
 		String address = Checker.getHexaFromDecimal(String.valueOf(currentLineAddress));
 		if(statement.getOpName().equalsIgnoreCase("EQU")){
-		    address = Checker.getHexaFromDecimal(String.valueOf(statementContent[2]));
+			address = EquateHandler.getAddressValue(statementContent[2].trim(),currentLineAddress);
         }
         String line = address + "    " + originalStatement;
         intermediateContent.add(line);
