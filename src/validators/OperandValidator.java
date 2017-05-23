@@ -3,6 +3,7 @@ package validators;
 import elements.EquateHandler;
 import elements.Label;
 import elements.Literal;
+import elements.ORGHandler;
 import elements.Operand;
 import exception.StatementException;
 import statement.IStatement;
@@ -81,6 +82,9 @@ public class OperandValidator implements IValidator {
         // EQUate
         if (directive.getOpName().equalsIgnoreCase("EQU")) {
         	flag = EquateHandler.validateEquateOperands(content);
+        }
+        if (directive.getOpName().equalsIgnoreCase("ORG")) {
+        	flag = ORGHandler.validateORGStatement(content);
         }
         if (flag)
             return true;

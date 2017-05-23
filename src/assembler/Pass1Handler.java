@@ -121,6 +121,10 @@ public class Pass1Handler {
                         if (data[1].equalsIgnoreCase("EQU")) {
                             symbolTable.put(data[0], address);
                         }
+                        
+                        if (data[1].equalsIgnoreCase("ORG")) {
+                            
+                        }
 
                         // LTORG statement in source program
                         if (data[1].equalsIgnoreCase("LTORG")) {

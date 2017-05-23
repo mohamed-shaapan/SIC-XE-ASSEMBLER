@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import data.Data;
 import elements.EquateHandler;
+import elements.ORGHandler;
 import exception.StatementException;
 import javafx.scene.media.EqualizerBand;
 import statement.IStatement;
@@ -44,14 +45,18 @@ public class LineAddressGenerator {
 			nextLineAddress = calculateNextLineAddress(statementContent);
 		}
 		// 02_generate current line for intermediate file
-		if (currentLineAddress >= Math.pow(2, 15) || nextLineAddress >= Math.pow(2, 15)) {
+		if (currentLineAddress >= Math.pow(2, 15) || nextLineAddress >= Math.pow(2, 15) ||(currentLineAddress<0)||(nextLineAddress<0)) {
 			nextLineAddress = currentLineAddress;
 			throw new StatementException("Out of Memory Range");
 		}
 		String address = Checker.getHexaFromDecimal(String.valueOf(currentLineAddress));
 		if(statement.getOpName().equalsIgnoreCase("EQU")){
 			address = EquateHandler.getAddressValue(statementContent[2].trim(),currentLineAddress);
+			if (Checker.convertFromHexaToDeca(address) >= Math.pow(2, 15) || (Checker.convertFromHexaToDeca(address)<0)){
+				throw new StatementException("Out of Memory Range");
+			}
         }
+		
         String line = address + "    " + originalStatement;
         intermediateContent.add(line);
         currentLineAddress = nextLineAddress;
@@ -71,6 +76,7 @@ public class LineAddressGenerator {
         currentLineAddress = nextLineAddress;
         return address;
     }
+    
 
     public void appendError(String originalStatement, String errorMessege) {
         error = true;
@@ -109,6 +115,9 @@ public class LineAddressGenerator {
             }    
         }
         // ORG
+        if (currentStatement[1].equalsIgnoreCase("ORG")){
+        	return ORGHandler.execute(currentStatement[2], currentLineAddress);
+        }
         return nextLineAddress;
     }
 
