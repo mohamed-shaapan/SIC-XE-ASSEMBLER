@@ -1,7 +1,5 @@
 package elements;
 
-import java.util.ArrayList;
-
 import data.Data;
 import tools.Checker;
 
@@ -23,7 +21,7 @@ public class EquateHandler {
 	
 	private static boolean checkOperand(String operandContent){
 		boolean flag = !operandContent.trim().isEmpty();
-		flag = flag && (Checker.checkName(operandContent) || Checker.checkHexaAddress("0X\'" + operandContent + "\'") || Checker.checkStar(operandContent));
+		flag = flag && (Checker.checkName(operandContent) || Checker.checkDecimalData(operandContent) || Checker.checkStar(operandContent));
         if (Checker.checkName(operandContent.trim())) {
             flag = flag && Data.symbolTable.get(operandContent.trim()) != null;
         }
@@ -52,7 +50,7 @@ public class EquateHandler {
 		if(operandContent.contains("+")){
 			sign = 1;
 		}
-		else if(operandContent.contains("+")){
+		else if(operandContent.contains("-")){
 			sign = -1;
 		}
 		else;
@@ -71,6 +69,6 @@ public class EquateHandler {
 	private static int getAddress(String operand , int currentLocationCounter){
 		if(Checker.checkStar(operand))return currentLocationCounter;
 		if(Checker.checkName(operand))return Checker.convertFromHexaToDeca(Data.symbolTable.get(operand.trim()));
-		return Checker.convertFromHexaToDeca(operand); 
+		return Integer.parseInt(operand); 
 	}
 }
