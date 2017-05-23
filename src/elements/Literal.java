@@ -96,7 +96,6 @@ public class Literal implements Operand {
 			value = Checker.getHexaFromChars(literalContent.substring(2, literalContent.length() - 1));
 		}
 		else{
-			if(literalContent.charAt(0)=='-')literalContent = literalContent.substring(1);
 			value = Checker.getHexaFromDecimal(literalContent);
 		}
 		return value; 

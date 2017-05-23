@@ -6,16 +6,19 @@ FIRST    JEQ     ENDFIL
          ltorg
 ENDFIL   LDA     EOF
          STA     BUFFER
-         LDA     THREE
+         LDA     *,x
+         LDA     0X'10',x
          STA     =-3
          ltorg
-Ahmed1   EQU     *
+Ahmed1   EQU     12-6
 Ahmed2   EQU     *+5
 Ahmed    EQU     12
 Mohamed  EQU     ENDFIL
 Mohamed1 EQU     ENDFIL+2
          JSUB    WRREC
          LDL     =-65
+         ORG
+         ORG     1000+Ahmed
          RSUB
 EOF      BYTE    C'EOF'
 THREE    WORD    3
@@ -27,6 +30,8 @@ RDREC    LDX     ZERO
          LDA     ZERO
          RD      INPUT
          COMP    ZERO
+         ORG
+         ORG
          STCH    BUFFER,X
          TIX     =3
 EXIT     STX     =-45

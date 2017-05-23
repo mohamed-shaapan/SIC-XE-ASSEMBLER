@@ -1,50 +1,55 @@
 001000    COPY     START   0X'1000'             
-001000    CLOOP    JSUB    RDREC                484033
+001000    CLOOP    JSUB    RDREC                483406
 001003    FIRST    JEQ     ENDFIL               30100c
-001006             JSUB    WRREC                48404f
+001006             JSUB    WRREC                481034
 001009             J       CLOOP                3c1000
 00100c             ltorg                        
-00100c    ENDFIL   LDA     EOF                  001024
-00100f             STA     BUFFER               0c1033
-001012             LDA     THREE                001027
-001015             STA     =-3                  0c1018
-001018             ltorg                        
-001018             *       =-3                  000003
-00101b    Ahmed1   EQU     *                    
-001020    Ahmed2   EQU     *+5                  
+00100c    ENDFIL   LDA     EOF                  0003f7
+00100f             STA     BUFFER               0c0406
+001012             LDA     *,x                  009012
+001015             LDA     0X'10',x             008010
+001018             STA     =-3                  0c101b
+00101b             ltorg                        
+00101b             *       =-3                  fffffd
+000006    Ahmed1   EQU     12-6                 
+001023    Ahmed2   EQU     *+5                  
 00000c    Ahmed    EQU     12                   
 00100c    Mohamed  EQU     ENDFIL               
 00100e    Mohamed1 EQU     ENDFIL+2             
-00101b             JSUB    WRREC                48404f
-00101e             LDL     =-65                 084068
-001021             RSUB                         4c0000
-001024    EOF      BYTE    C'EOF'               454f46
-001027    THREE    WORD    3                    000003
-00102a    ZERO     WORD    0                    000000
-00102d    RETADR   RESW    1                    
-001030    LENGTH   RESW    1                    
-001033    BUFFER   RESW    4096                 
-004033    RDREC    LDX     ZERO                 04102a
-004036             LDA     ZERO                 00102a
-004039             RD      INPUT                d8404b
-00403c             COMP    ZERO                 28102a
-00403f             STCH    BUFFER,X             549033
-004042             TIX     =3                   2c406b
-004045    EXIT     STX     =-45                 10406e
-004048             RSUB                         4c0000
-00404b    INPUT    BYTE    X'F1'                F1
-00404c    MAXLEN   WORD    4096                 001000
-00404f    WRREC    LDX     ZERO                 04102a
-004052    WLOOP    TD      OUTPUT               e04067
-004055             JEQ     =34                  304071
-004058             LDCH    BUFFER,X             509033
-00405b             WD      OUTPUT               dc4067
-00405e             TIX     LENGTH               2c1030
-004061             JLT     WLOOP                384052
-004064             RSUB                         4c0000
-004067    OUTPUT   BYTE    X'05'                05
-004068             END     ENDFIL               
-004068             *       =-65                 000041
-00406b             *       =3                   000003
-00406e             *       =-45                 00002d
-004071             *       =34                  000022
+00101e             JSUB    WRREC                481034
+001021             LDL     =-65                 08104d
+001024             ORG                          
+001024             ORG     1000+Ahmed           
+0003f4             RSUB                         4c0000
+0003f7    EOF      BYTE    C'EOF'               454f46
+0003fa    THREE    WORD    3                    000003
+0003fd    ZERO     WORD    0                    000000
+000400    RETADR   RESW    1                    
+000403    LENGTH   RESW    1                    
+000406    BUFFER   RESW    4096                 
+003406    RDREC    LDX     ZERO                 0403fd
+003409             LDA     ZERO                 0003fd
+00340c             RD      INPUT                d81030
+00340f             COMP    ZERO                 2803fd
+003412             ORG                          
+001024             ORG                          
+001024             STCH    BUFFER,X             548406
+001027             TIX     =3                   2c1050
+00102a    EXIT     STX     =-45                 101053
+00102d             RSUB                         4c0000
+001030    INPUT    BYTE    X'F1'                F1
+001031    MAXLEN   WORD    4096                 001000
+001034    WRREC    LDX     ZERO                 0403fd
+001037    WLOOP    TD      OUTPUT               e0104c
+00103a             JEQ     =34                  301056
+00103d             LDCH    BUFFER,X             508406
+001040             WD      OUTPUT               dc104c
+001043             TIX     LENGTH               2c0403
+001046             JLT     WLOOP                381037
+001049             RSUB                         4c0000
+00104c    OUTPUT   BYTE    X'05'                05
+00104d             END     ENDFIL               
+00104d             *       =-65                 ffffbf
+001050             *       =3                   000003
+001053             *       =-45                 ffffd3
+001056             *       =34                  000022

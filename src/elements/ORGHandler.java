@@ -1,5 +1,7 @@
 package elements;
 
+import tools.Checker;
+
 public class ORGHandler {
 	
 	private static int originalProgramLocation=-1;
@@ -26,10 +28,7 @@ public class ORGHandler {
 			return originalProgramLocation;
 		}else{
 			originalProgramLocation=currentLocation;
-			return Integer.parseInt(EquateHandler.getAddressValue(operand, currentLocation));
+			return Checker.convertFromHexaToDeca(EquateHandler.getAddressValue(operand, currentLocation));
 		}
 	}
-	
-	
-	
 }

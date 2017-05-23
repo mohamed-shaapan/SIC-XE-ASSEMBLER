@@ -167,10 +167,10 @@ public class Pass2Handler {
         }
         operandAddress = this.symbolTable.get(instructionContent.get(3).substring(0, indOfColon).trim());
         if (operandAddress == null && statement.getNumberOfOperands() != 0) {
-            if (Checker.checkHexaAddress(instructionContent.get(3).trim())) {
-                String address = instructionContent.get(3).trim();
+            if (Checker.checkHexaAddress(instructionContent.get(3).trim().substring(0, indOfColon))) {
+                String address = instructionContent.get(3).trim().substring(0, indOfColon);
                 operandAddress = address.substring(3, address.length() - 1);
-            } else if (Checker.checkStar(instructionContent.get(3).trim())) {
+            } else if (Checker.checkStar(instructionContent.get(3).trim().substring(0, indOfColon))) {
                 operandAddress = instructionContent.get(0).trim();
             } else if (Checker.checkLiteral(instructionContent.get(3).trim())) {
                 operandAddress = (this.literalTable.get(instructionContent.get(3).substring(0, indOfColon).trim()))

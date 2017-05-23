@@ -57,10 +57,21 @@ public class Checker {
 		content = content.trim();
 		if (content.trim().isEmpty() || content.trim().length() < 5)
 			return false;
+		
+		int indexing = content.indexOf(',');
+		if(indexing!=-1){
+			if (!(content.charAt(indexing + 1) == 'X' || content.charAt(indexing + 1) == 'x'))
+				return false;			
+		}
+		else{
+			indexing = content.length();
+		}
+		
 		boolean flag = false;
 		if (content.charAt(0) == '0' && content.charAt(1) == 'X')
-			if (content.charAt(2) == '\'' && content.charAt(content.length() - 1) == '\'')
-				flag = checkHexaNumber(content.substring(3, content.length() - 1));
+			if (content.charAt(2) == '\'' && content.charAt(indexing - 1) == '\'')
+				flag = checkHexaNumber(content.substring(3, indexing-1));
+		
 		return flag;
 	}
 
@@ -90,7 +101,11 @@ public class Checker {
 	}
 
 	public static String getHexaFromDecimal(String decimalValue) {
-		String value = Integer.toHexString(Integer.parseInt(decimalValue));
+		String value = Long.toHexString(Long.parseLong(decimalValue));
+		
+		if(value.length() > 6){
+			value = value.substring(value.length()-6, value.length());
+		}
 		while (value.length() < 6) {
 			value = "0" + value.substring(0);
 		}
