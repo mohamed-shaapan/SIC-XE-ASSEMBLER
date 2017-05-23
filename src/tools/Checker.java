@@ -4,7 +4,7 @@ public class Checker {
 
 	public static boolean checkName(String content) {
 		int i = 0;
-		if (inBetween(content, 0, '0', '9'))
+		if (!inBetween(content, 0, 'A', 'Z') && !inBetween(content, 0, 'a', 'z'))
 			return false;
 		while (i < content.length()) {
 			if (content.charAt(i) == ',')
@@ -63,10 +63,15 @@ public class Checker {
 				flag = checkHexaNumber(content.substring(3, content.length() - 1));
 		return flag;
 	}
-	
-	//***********************************************
-	public static boolean checkLiteral(String content){
-		
+
+	// ***********************************************
+	public static boolean checkLiteral(String content) {
+		content = content.trim();
+		if(content.isEmpty())return false;
+		if (content.charAt(0) == '=') {
+			return checkStringData(content.substring(1)) || checkHexaData(content.substring(1))
+					|| checkDecimalData(content.substring(1));
+		}
 		return false;
 	}
 
@@ -101,6 +106,45 @@ public class Checker {
 		}
 		return num;
 	}
-	
-	
+
+	public static boolean checkStringData(String content) {
+		if (content.charAt(0) == 'C' || content.charAt(0) == 'c') {
+			if (content.charAt(1) == '\'' && content.charAt(content.length() - 1) == '\'')
+				if (content.substring(2, content.length() - 1).length() <= 15)
+					return true;
+		}
+		return false;
+	}
+
+	public static boolean checkHexaData(String content) {
+		boolean flag = false;
+		if (content.charAt(0) == 'X' || content.charAt(0) == 'x') {
+			if (content.charAt(1) == '\'' && content.charAt(content.length() - 1) == '\'')
+				flag = (content.substring(2, content.length() - 1).length() % 2 == 0)
+						&& Checker.checkHexaNumber(content.substring(2, content.length() - 1))
+						&& content.substring(1, content.length() - 1).length() <= 14;
+		}
+		return flag;
+	}
+
+	public static boolean checkDecimalData(String content) {
+		boolean flag = false;
+		if (content.length() <= 5 && !flag) {
+			if (content.charAt(0) == '-') {
+				flag = Checker.checkDecimalNumber(content.substring(1));
+			} else {
+				flag = (content.length() < 5);
+				flag = flag && Checker.checkDecimalNumber(content);
+			}
+		}
+		return flag;
+	}
+
+	public static String getHexaFromChars(String stringValue) {
+        String value = "";
+        for (int i = stringValue.length() - 1; i >= 0; i--) {
+            value = Integer.toHexString(((int) stringValue.charAt(i))) + value;
+        }
+        return value;
+    }
 }

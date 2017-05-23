@@ -16,7 +16,7 @@ public class LabelValidator implements IValidator {
 		if (operation.hasLabel() == 1) {
 			return checkSyntax(content);
 		}
-		if (operation.hashCode() == 0) {
+		if (operation.hasLabel() == 0) {
 			return checkEmpty(content);
 		} else {
 			try {

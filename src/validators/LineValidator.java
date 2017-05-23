@@ -5,7 +5,8 @@ import exception.StatementException;
 import statement.IStatement;
 
 public class LineValidator {
-	private IValidator labelValidator, operationValidator, operandValidator, commentValidator;
+	private IValidator labelValidator, operationValidator, commentValidator;
+	private OperandValidator operandValidator;
 
 	public LineValidator() {
 		labelValidator = new LabelValidator();
@@ -22,8 +23,8 @@ public class LineValidator {
 								// statement);
 		return cond1 && cond2 && cond3 && cond4;
 	}
-	
+	 
 	public Operand getOperandType(){
-		return operandValidator.getType();
+		return operandValidator.getOperandType();
 	}
 }

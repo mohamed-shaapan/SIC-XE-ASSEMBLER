@@ -1,5 +1,6 @@
 package validators;
 
+import data.Data;
 import elements.Label;
 import elements.Literal;
 import elements.Operand;
@@ -22,92 +23,95 @@ import tools.Checker;
 
 public class OperandValidator implements IValidator {
 
-	
-	
-	private Operand type;
-	
-	
-	public OperandValidator() {
-		type = new Label();
-	}
+    private Operand type;
 
-	@Override
-	public Boolean validate(String content, IStatement operation) throws StatementException {
-		String str = content.trim();
-		if (operation instanceof Operation) {
-			return format3(str, operation);
-		} else {
-			return checkDirective(str, operation);
-		}
-	}
+    public OperandValidator() {
+        type = new Label();
+    }
 
-	// it will break if we try BYTE -123 or WORD C'assa'
-	private boolean checkDirective(String content, IStatement directive) throws StatementException {
-		String error = "";
-		boolean flag = false;
-		// limits for X'max 14 hexa digits' || C'max 15 char'
-		if (directive.getOpName().equalsIgnoreCase("BYTE")) {
-			if (Checker.checkStringData(content)||Checker.checkHexaData(content)) {
-				flag = true;
-			} else {
-				error = "illegel expression with BYTE expecting C'' or X''";
-			}
-		}
-		// limits for word - or not (4 decimal digits)
-		if (directive.getOpName().equalsIgnoreCase("WORD")) {
-			flag = Checker.checkDecimalData(content);
-		}
-		// limits not more than 4 decimal digits
-		if (directive.getOpName().equalsIgnoreCase("RESW") || directive.getOpName().equalsIgnoreCase("RESB")) {
-			flag = (content.trim().length() <= 4) && (Checker.checkDecimalNumber(content));
-			if (!flag) {
-				error = "illegel operand with RES";
-			}
-		}
+    @Override
+    public Boolean validate(String content, IStatement operation) throws StatementException {
+        String str = content.trim();
+        if (operation instanceof Operation) {
+            return format3(str, operation);
+        } else {
+            return checkDirective(str, operation);
+        }
+    }
 
-		// must be hexadecimal value no label
-		if (directive.getOpName().equalsIgnoreCase("START")) {
-			flag = Checker.checkHexaAddress(content);
-		}
+    // it will break if we try BYTE -123 or WORD C'assa'
+    private boolean checkDirective(String content, IStatement directive) throws StatementException {
+        String error = "";
+        boolean flag = false;
+        // limits for X'max 14 hexa digits' || C'max 15 char'
+        if (directive.getOpName().equalsIgnoreCase("BYTE")) {
+            if (Checker.checkStringData(content) || Checker.checkHexaData(content)) {
+                flag = true;
+            } else {
+                error = "illegel expression with BYTE expecting C'' or X''";
+            }
+        }
+        // limits for word - or not (4 decimal digits)
+        if (directive.getOpName().equalsIgnoreCase("WORD")) {
+            flag = Checker.checkDecimalData(content);
+        }
+        // limits not more than 4 decimal digits
+        if (directive.getOpName().equalsIgnoreCase("RESW") || directive.getOpName().equalsIgnoreCase("RESB")) {
+            flag = (content.trim().length() <= 4) && (Checker.checkDecimalNumber(content));
+            if (!flag) {
+                error = "illegel operand with RES";
+            }
+        }
 
-		// no numeric address after END or empty
-		if (directive.getOpName().equalsIgnoreCase("END")) {
-			flag = Checker.checkName(content) || (content.trim().isEmpty());
-		}
-		
-		//neither operand nor label with ltorg
-		if (directive.getOpName().equalsIgnoreCase("LTORG")) {
-			flag = content.trim().isEmpty();
-		}
-		
-		if (flag)
-			return true;
-		if (error.isEmpty())
-			throw new StatementException("Invalid Directive Operands");
-		else
-			throw new StatementException(error);
-	}
+        // must be hexadecimal value no label
+        if (directive.getOpName().equalsIgnoreCase("START")) {
+            flag = Checker.checkHexaAddress(content);
+        }
 
-	private boolean format3(String content, IStatement operation) throws StatementException {
-		if (generalChecker(content, operation)){
-			type = new Label();
-			return true;
-		}
-		if(Checker.checkLiteral(content)){
-			type = new Literal();
-			return true;
-		}
-		throw new StatementException("Invalid Operation Operand");
-	}
+        // no numeric address after END or empty
+        if (directive.getOpName().equalsIgnoreCase("END")) {
+            flag = Checker.checkName(content) || (content.trim().isEmpty());
+        }
 
-	private boolean generalChecker(String content, IStatement operation) {
-		if (operation.getNumberOfOperands() == 0)
-			return (content.trim().isEmpty());
-		return (Checker.checkName(content) || Checker.checkHexaAddress(content) || Checker.checkStar(content));
-	}
-	
-	public Operand getOperandType(){
-		return type;
-	}
+        // neither operand nor label with ltorg
+        if (directive.getOpName().equalsIgnoreCase("LTORG")) {
+            flag = content.trim().isEmpty();
+        }
+        // EQUate
+        if (directive.getOpName().equalsIgnoreCase("EQU")) {
+            flag = !content.trim().isEmpty() && generalChecker(content.trim(), directive);
+            if (Checker.checkName(content.trim())) {
+                flag = flag && Data.symbolTable.get(content.trim()) != null;
+            }
+        }
+        if (flag)
+            return true;
+        if (error.isEmpty())
+            throw new StatementException("Invalid Directive Operands");
+        else
+            throw new StatementException(error);
+    }
+
+    private boolean format3(String content, IStatement operation) throws StatementException {
+        if (generalChecker(content, operation)) {
+            type = new Label();
+            return true;
+        }
+        if (Checker.checkLiteral(content)) {
+            type = new Literal();
+            return true;
+        }
+        throw new StatementException("Invalid Operation Operand");
+    }
+
+    private boolean generalChecker(String content, IStatement operation) {
+        if (operation.getNumberOfOperands() == 0)
+            return (content.trim().isEmpty());
+        return (Checker.checkName(content) || Checker.checkHexaAddress(content) || Checker.checkStar(content));
+    }
+
+    public Operand getOperandType() {
+        return type;
+    }
 
 }

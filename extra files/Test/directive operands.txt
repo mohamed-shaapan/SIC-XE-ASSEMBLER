@@ -1,8 +1,0 @@
-start 1 2
-end 1 0
-byte 1 2
-word 1 2
-resw 1 2
-resb 1 2
-EQU 1 1
-ORG 1
